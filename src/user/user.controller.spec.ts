@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import { Test, TestingModule } from "@nestjs/testing";
 import { UserController } from "./user.controller";
 import { UserService } from "./user.service";
@@ -10,7 +10,7 @@ type Mock = Partial<Repository<User>>;
 
 describe("UserController", () => {
     let controller: UserController;
-    let mockRepository: Mock = {};
+    const mockRepository: Mock = {};
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({

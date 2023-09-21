@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import { Test, TestingModule } from "@nestjs/testing";
 import { UserError, UserService } from "./user.service";
 import { getRepositoryToken } from "@nestjs/typeorm";
