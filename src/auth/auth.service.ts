@@ -1,8 +1,9 @@
 import { Inject, Injectable, forwardRef } from "@nestjs/common";
 import { UserError, UserService } from "src/user/user.service";
-import bcrypt from "bcrypt";
+import * as bcrypt from "bcrypt";
 import { GenericError } from "src/util/error";
 import { JwtService } from "@nestjs/jwt";
+import { ConfigService } from "@nestjs/config";
 
 export type AuthError =
     | "WRONG CREDENTIALS";
@@ -13,6 +14,7 @@ export class AuthService {
         @Inject(forwardRef(() => UserService))
         private userService: UserService,
         private jwtService: JwtService,
+        private configService: ConfigService,
     ) { }
 
     async signIn(username: string, password: string) {
@@ -38,7 +40,9 @@ export class AuthService {
 
         return {
             hash,
-            jwt: await this.jwtService.signAsync(payload),
+            jwt: await this.jwtService.signAsync(payload, {
+                secret: this.configService.get("JWT_SECRET"),
+            }),
         };
     }
 }
