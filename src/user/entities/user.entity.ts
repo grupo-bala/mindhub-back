@@ -3,20 +3,20 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+      id: number;
 
   @Column()
-  email: string;
+      email: string;
 
   @Column()
-  username: string;
+      username: string;
 
   @Column()
-  hashPassword: string;
+      hashPassword: string;
 
   @Column()
-  xp: number;
+      xp: number;
 
   @Column()
-  currentBadge: number;
+      currentBadge: number;
 }
