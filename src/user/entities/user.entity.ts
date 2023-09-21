@@ -2,21 +2,21 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
-      id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column()
-      email: string;
+    @Column()
+    email: string;
 
-  @Column()
-      username: string;
+    @Column()
+    username: string;
 
-  @Column()
-      hashPassword: string;
+    @Column()
+    hashPassword: string;
 
-  @Column()
-      xp: number;
+    @Column()
+    xp: number;
 
-  @Column()
-      currentBadge: number;
+    @Column()
+    currentBadge: number;
 }
