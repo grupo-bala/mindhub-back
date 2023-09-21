@@ -7,15 +7,16 @@ import { CreateUserDto } from "./dto/create-user.dto";
 import { GenericError } from "src/util/error";
 import { Repository } from "typeorm";
 import { UpdateUserDto } from "./dto/update-user.dto";
-
-type Mock = Partial<Repository<User>>;
+import { AuthService } from "src/auth/auth.service";
 
 describe("UserService", () => {
     let service: UserService;
-    let mockRepository: Mock = {};
+    let mockRepository: Partial<Repository<User>> = {};
+    let mockAuth: Partial<AuthService> = {};
 
     beforeEach(async () => {
         mockRepository = {};
+        mockAuth = {};
         
         const module: TestingModule = await Test.createTestingModule({
             providers: [
@@ -23,6 +24,10 @@ describe("UserService", () => {
                 {
                     provide: getRepositoryToken(User),
                     useValue: mockRepository,
+                },
+                {
+                    provide: AuthService,
+                    useValue: mockAuth,
                 }
             ],
         }).compile();
@@ -35,6 +40,7 @@ describe("UserService", () => {
 
         mockRepository.findOneBy = async () => null;
         mockRepository.save = async () => [];
+        mockAuth.signUp = async () => ({ hash: "", jwt: "" });
 
         expect(() => service.create(user))
             .not.toThrow();
@@ -47,7 +53,7 @@ describe("UserService", () => {
 
         expect(service.create(user))
             .rejects
-            .toThrow(new GenericError<UserError>("DUPLICATE_EMAIL"));
+            .toThrow(new GenericError<UserError>("DUPLICATE EMAIL"));
     });
 
     it("should throw with duplicated username", () => {
@@ -61,7 +67,7 @@ describe("UserService", () => {
 
         expect(service.create(user))
             .rejects
-            .toThrow(new GenericError<UserError>("DUPLICATE_USERNAME"));
+            .toThrow(new GenericError<UserError>("DUPLICATE USERNAME"));
     });
 
     it("should return all users", () => {
@@ -74,27 +80,27 @@ describe("UserService", () => {
             .toHaveLength(3);
     });
 
-    it("should return the correct user by id", () => {
+    it("should return the correct user by username", () => {
         const user = new User();
-        user.id = 1;
+        user.username = "teste";
         
         mockRepository.findOneBy = async () => {
             return user;
         };
 
-        expect(service.findOne(1))
+        expect(service.findOne("teste"))
             .resolves
             .toBe(user);
     });
 
-    it("should return null for non existent user id", () => {
+    it("should return null for non existent username", () => {
         mockRepository.findOneBy = async () => {
             return null;
         };
 
-        expect(service.findOne(1))
-            .resolves
-            .toBe(null);
+        expect(service.findOne("teste"))
+            .rejects
+            .toThrow(new GenericError<UserError>("USER DOESNT EXIST"));
     });
 
     it("should return true when updating 1 user", () => {
@@ -108,7 +114,7 @@ describe("UserService", () => {
             };
         };
 
-        expect(service.update(1, user))
+        expect(service.update("teste", user))
             .resolves
             .toBeTruthy();
     });
@@ -124,7 +130,7 @@ describe("UserService", () => {
             };
         };
 
-        expect(service.update(1, user))
+        expect(service.update("teste", user))
             .resolves
             .toBeFalsy();
     });
