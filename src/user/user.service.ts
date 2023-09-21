@@ -4,15 +4,26 @@ import { UpdateUserDto } from "./dto/update-user.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "./entities/user.entity";
 import { Repository } from "typeorm";
+import { GenericError } from "src/util/error";
+
+export type UserError =
+    | "DUPLICATE_EMAIL"
+    | "DUPLICATE_USERNAME";
 
 @Injectable()
 export class UserService {
     constructor(
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
+        @InjectRepository(User)
+        private userRepository: Repository<User>,
     ) {}
 
-    create(createUserDto: CreateUserDto) {
+    async create(createUserDto: CreateUserDto) {
+        if (await this.userRepository.findOneBy({ email: createUserDto.email })) {
+            throw new GenericError<UserError>("DUPLICATE_EMAIL");
+        } else if (await this.userRepository.findOneBy({ username: createUserDto.username })) {
+            throw new GenericError<UserError>("DUPLICATE_USERNAME");
+        }
+
         this.userRepository.save({
             hashPassword: createUserDto.password,
             xp: 0,
@@ -21,19 +32,19 @@ export class UserService {
         });
     }
 
-    findAll() {
+    async findAll() {
         return this.userRepository.find();
     }
 
-    findOne(id: number) {
+    async findOne(id: number) {
         return this.userRepository.findOneBy({ id });
     }
 
-    update(id: number, updateUserDto: UpdateUserDto) {
-        return this.userRepository.update(id, updateUserDto);
+    async update(id: number, updateUserDto: UpdateUserDto) {
+        return (await this.userRepository.update(id, updateUserDto))!.affected! > 0;
     }
 
-    remove(id: number) {
-        return this.userRepository.delete(id);
+    async remove(id: number) {
+        return (await this.userRepository.delete(id))!.affected! > 0;
     }
 }
