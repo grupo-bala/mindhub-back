@@ -15,7 +15,7 @@ export class UserService {
     constructor(
         @InjectRepository(User)
         private userRepository: Repository<User>,
-    ) {}
+    ) { }
 
     async create(createUserDto: CreateUserDto) {
         if (await this.userRepository.findOneBy({ email: createUserDto.email })) {
