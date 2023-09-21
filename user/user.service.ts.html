@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>50/50</span>
+                <span class='fraction'>62/62</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90.9% </span>
+                <span class="strong">85.71% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/11</span>
+                <span class='fraction'>12/14</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>50/50</span>
+                <span class='fraction'>62/62</span>
             </div>
         
             
@@ -112,7 +112,19 @@
 <a name='L47'></a><a href='#L47'>47</a>
 <a name='L48'></a><a href='#L48'>48</a>
 <a name='L49'></a><a href='#L49'>49</a>
-<a name='L50'></a><a href='#L50'>50</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -127,6 +139,10 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
@@ -151,7 +167,15 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -161,54 +185,66 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">import { Injectable } from "@nestjs/common";
+<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">import { Inject, Injectable, forwardRef } from "@nestjs/common";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "./entities/user.entity";
 import { Repository } from "typeorm";
 import { GenericError } from "src/util/error";
+import { AuthService } from "src/auth/auth.service";
 &nbsp;
 export type UserError =
-    | "DUPLICATE_EMAIL"
-    | "DUPLICATE_USERNAME";
+    | "DUPLICATE EMAIL"
+    | "DUPLICATE USERNAME"
+    | "USER DOESNT EXIST";
 &nbsp;
 @Injectable()
 export class UserService {
     constructor(
         @InjectRepository(User)
         private userRepository: <span class="branch-0 cbranch-no" title="branch not covered" >Repository&lt;User&gt;,</span>
+        @Inject(forwardRef(() =&gt; AuthService))
+        private authService: <span class="branch-0 cbranch-no" title="branch not covered" >AuthService,</span>
     ) { }
 &nbsp;
-    async create(createUserDto: CreateUserDto) {
-        if (await this.userRepository.findOneBy({ email: createUserDto.email })) {
-            throw new GenericError&lt;UserError&gt;("DUPLICATE_EMAIL");
-        } else if (await this.userRepository.findOneBy({ username: createUserDto.username })) {
-            throw new GenericError&lt;UserError&gt;("DUPLICATE_USERNAME");
+    async create({ username, password, email }: CreateUserDto) {
+        if (await this.userRepository.findOneBy({ email: email })) {
+            throw new GenericError&lt;UserError&gt;("DUPLICATE EMAIL");
+        } else if (await this.userRepository.findOneBy({ username: username })) {
+            throw new GenericError&lt;UserError&gt;("DUPLICATE USERNAME");
         }
 &nbsp;
-        this.userRepository.save({
-            hashPassword: createUserDto.password,
-            xp: 0,
-            currentBadge: 0,
-            ...createUserDto
+        const { hash, jwt } = await this.authService.signUp(username, password);
+&nbsp;
+        await this.userRepository.save({
+            username,
+            email,
+            hashPassword: hash,
         });
+&nbsp;
+        return jwt;
     }
 &nbsp;
     async findAll() {
         return this.userRepository.find();
     }
 &nbsp;
-    async findOne(id: number) {
-        return this.userRepository.findOneBy({ id });
+    async findOne(username: string) {
+        const user = await this.userRepository.findOneBy({ username });
+        if (user) {
+            return user;
+        } else {
+            throw new GenericError&lt;UserError&gt;("USER DOESNT EXIST");
+        }
     }
 &nbsp;
-    async update(id: number, updateUserDto: UpdateUserDto) {
-        return (await this.userRepository.update(id, updateUserDto))!.affected! &gt; 0;
+    async update(username: string, updateUserDto: UpdateUserDto) {
+        return (await this.userRepository.update(username, updateUserDto))!.affected! &gt; 0;
     }
 &nbsp;
-    async remove(id: number) {
-        return (await this.userRepository.delete(id))!.affected! &gt; 0;
+    async remove(username: number) {
+        return (await this.userRepository.delete(username))!.affected! &gt; 0;
     }
 }</pre></td></tr></table></pre>
 
@@ -217,7 +253,7 @@ export class UserService {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-09-21T19:07:01.172Z
+                at 2023-09-21T21:43:18.358Z
             </div>
         <script src="../prettify.js"></script>
         <script>
