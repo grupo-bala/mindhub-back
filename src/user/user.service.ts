@@ -56,7 +56,7 @@ export class UserService {
         return (await this.userRepository.update(username, updateUserDto))!.affected! > 0;
     }
 
-    async remove(username: number) {
+    async remove(username: string) {
         return (await this.userRepository.delete(username))!.affected! > 0;
     }
 }
