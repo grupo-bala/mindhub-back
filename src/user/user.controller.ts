@@ -1,34 +1,41 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from "@nestjs/common";
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, ClassSerializerInterceptor } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
+import { ApiTags } from "@nestjs/swagger";
 
+@ApiTags("user")
 @Controller("user")
 export class UserController {
     constructor(private readonly userService: UserService) { }
 
     @Post()
-    create(@Body() createUserDto: CreateUserDto) {
-        return this.userService.create(createUserDto);
+    async create(@Body() createUserDto: CreateUserDto) {
+        return await this.userService.create(createUserDto);
     }
 
+    @UseInterceptors(ClassSerializerInterceptor)
     @Get()
-    findAll() {
-        return this.userService.findAll();
+    async findAll() {
+        return await this.userService.findAll();
     }
 
-    @Get(":id")
-    findOne(@Param("id") id: string) {
-        return this.userService.findOne(id);
+    @UseInterceptors(ClassSerializerInterceptor)
+    @Get(":username")
+    async findOne(@Param("username") username: string) {
+        return await this.userService.findOne(username);
     }
 
-    @Patch(":id")
-    update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
-        return this.userService.update(id, updateUserDto);
+    @Patch(":username")
+    async update(
+        @Param("username") username: string,
+        @Body() updateUserDto: UpdateUserDto,
+    ) {
+        await this.userService.update(username, updateUserDto);
     }
 
-    @Delete(":id")
-    remove(@Param("id") id: string) {
-        return this.userService.remove(+id);
+    @Delete(":username")
+    async remove(@Param("username") username: string) {
+        await this.userService.remove(username);
     }
 }
