@@ -1,0 +1,48 @@
+name: CI workflow
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  lint:
+    name: Run linter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup for lint
+        uses: actions/checkout@v3
+      
+      - name: Install node
+        uses: actions/setup-node@v3.5.1
+        with:
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm i
+      
+      - name: Run eslint
+        run: npm run lint
+  
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup for tests
+        uses: actions/checkout@v3
+      
+      - name: Install node
+        uses: actions/setup-node@v3.5.1
+        with:
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm i
+      
+      - name: Run tests
+        run: npm run test:cov
+
+      - name: Deploy coverage
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: coverage
