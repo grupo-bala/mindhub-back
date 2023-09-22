@@ -9,4 +9,9 @@ export class CreateUserDto {
 
     @ApiProperty()
         password: string;
+    
+    @ApiProperty({
+        type: [String],
+    })
+        expertises: string[];
 }
