@@ -10,6 +10,7 @@ async function bootstrap() {
         .setTitle("Mindhub")
         .setDescription("The Mindhub API description")
         .setVersion("1.0")
+        .addBearerAuth()
         .build();
   
     const document = SwaggerModule.createDocument(app, config);
