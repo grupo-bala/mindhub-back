@@ -29,6 +29,6 @@ describe("AuthController", () => {
 
         expect(controller.login(new LoginDTO()))
             .resolves
-            .toBe("jwt");
+            .toStrictEqual({ token: "jwt" });
     });
 });

@@ -1,5 +1,5 @@
-import { Body, Controller, Post } from "@nestjs/common";
-import { AuthService } from "./auth.service";
+import { Body, Controller, HttpException, HttpStatus, Post } from "@nestjs/common";
+import { AuthException, AuthService } from "./auth.service";
 import { LoginDTO } from "./dto/login.dto";
 import { ApiTags } from "@nestjs/swagger";
 
@@ -14,6 +14,16 @@ export class AuthController {
     async login(
         @Body() { username, password }: LoginDTO
     ) {
-        return this.authService.signIn(username, password);
+        try {
+            return {
+                token: await this.authService.signIn(username, password),
+            };
+        } catch (e) {
+            if (e instanceof AuthException) {
+                throw new HttpException(e.name, HttpStatus.UNAUTHORIZED);
+            }
+
+            throw e;
+        }
     }
 }

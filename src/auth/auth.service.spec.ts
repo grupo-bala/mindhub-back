@@ -1,9 +1,8 @@
 import { describe, beforeEach, it, expect } from "vitest";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AuthError, AuthService } from "./auth.service";
+import { AuthException, AuthService } from "./auth.service";
 import { JwtService } from "@nestjs/jwt";
-import { UserError, UserService } from "src/user/user.service";
-import { GenericError } from "src/util/error";
+import { UserService, UserException } from "src/user/user.service";
 import { User } from "src/user/entities/user.entity";
 import { ConfigModule } from "@nestjs/config";
 
@@ -36,12 +35,12 @@ describe("AuthService", () => {
 
     it("should throw with non existing username", () => {
         userMock.findOne = async () => {
-            throw new GenericError<UserError>("USER DOESNT EXIST");
+            throw new UserException("USER DOESNT EXIST");
         };
 
         expect(service.signIn("teste", "teste"))
             .rejects
-            .toThrow(new GenericError<AuthError>("WRONG CREDENTIALS"));
+            .toThrow(new AuthException("WRONG CREDENTIALS"));
     });
 
     it("should throw with wrong password", () => {

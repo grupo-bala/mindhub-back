@@ -1,10 +1,9 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { Test, TestingModule } from "@nestjs/testing";
-import { UserError, UserService } from "./user.service";
+import { UserException, UserService } from "./user.service";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import { User } from "./entities/user.entity";
 import { CreateUserDto } from "./dto/create-user.dto";
-import { GenericError } from "src/util/error";
 import { Repository } from "typeorm";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { AuthService } from "src/auth/auth.service";
@@ -37,6 +36,7 @@ describe("UserService", () => {
 
     it("should save non existing user", () => {
         const user = new CreateUserDto();
+        user.expertises = [""];
 
         mockRepository.findOneBy = async () => null;
         mockRepository.save = async () => [];
@@ -53,21 +53,45 @@ describe("UserService", () => {
 
         expect(service.create(user))
             .rejects
-            .toThrow(new GenericError<UserError>("DUPLICATE EMAIL"));
+            .toThrow(new UserException("DUPLICATE EMAIL"));
     });
 
     it("should throw with duplicated username", () => {
         const user = new CreateUserDto();
         user.username = "teste";
 
-        mockRepository.findOneBy = async (dto: CreateUserDto) => {
-            if (dto.username) return new User();
+        mockRepository.findOneBy = async (dto: object) => {
+            if ("username" in dto) return new User();
             return null;
         };
 
         expect(service.create(user))
             .rejects
-            .toThrow(new GenericError<UserError>("DUPLICATE USERNAME"));
+            .toThrow(new UserException("DUPLICATE USERNAME"));
+    });
+
+    it("should throw with no expertise", () => {
+        const user = new CreateUserDto();
+        user.username = "teste";
+        user.expertises = [];
+
+        mockRepository.findOneBy = async () => null;
+
+        expect(service.create(user))
+            .rejects
+            .toThrow(new UserException("USER NEED AT LEAST ONE EXPERTISE"));
+    });
+
+    it("should throw with 4 expertisew", () => {
+        const user = new CreateUserDto();
+        user.username = "teste";
+        user.expertises = ["", "", "", ""];
+
+        mockRepository.findOneBy = async () => null;
+
+        expect(service.create(user))
+            .rejects
+            .toThrow(new UserException("USER CAN HAVE UNTIL 3 EXPERTISES"));
     });
 
     it("should return all users", () => {
@@ -100,7 +124,7 @@ describe("UserService", () => {
 
         expect(service.findOne("teste"))
             .rejects
-            .toThrow(new GenericError<UserError>("USER DOESNT EXIST"));
+            .toThrow(new UserException("USER DOESNT EXIST"));
     });
 
     it("should return true when updating 1 user", () => {
@@ -144,7 +168,7 @@ describe("UserService", () => {
             };
         };
 
-        expect(service.remove(1))
+        expect(service.remove("teste"))
             .resolves
             .toBeTruthy();
     });
@@ -158,7 +182,7 @@ describe("UserService", () => {
             };
         };
 
-        expect(service.remove(1))
+        expect(service.remove("teste"))
             .resolves
             .toBeFalsy();
     });

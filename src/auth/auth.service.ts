@@ -1,12 +1,20 @@
 import { Inject, Injectable, forwardRef } from "@nestjs/common";
-import { UserError, UserService } from "src/user/user.service";
+import { UserService, UserException } from "src/user/user.service";
 import * as bcrypt from "bcrypt";
-import { GenericError } from "src/util/error";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from "@nestjs/config";
 
-export type AuthError =
+type AuthError =
     | "WRONG CREDENTIALS";
+
+export class AuthException extends Error {
+    name: AuthError;
+
+    constructor(name: AuthError) {
+        super();
+        this.name = name;
+    }
+}
 
 @Injectable()
 export class AuthService {
@@ -22,15 +30,19 @@ export class AuthService {
             const user = await this.userService.findOne(username);
             
             if (!await bcrypt.compare(password, user.hashPassword)) {
-                throw new GenericError<AuthError>("WRONG CREDENTIALS");
+                throw new AuthException("WRONG CREDENTIALS");
             }
             
             const payload = { sub: user.username };
-            return await this.jwtService.signAsync(payload);
+            return await this.jwtService.signAsync(payload, {
+                secret: this.configService.get("JWT_SECRET"),
+            });
         } catch (e) {
-            if (e instanceof GenericError && e.name satisfies UserError) {
-                throw new GenericError<AuthError>("WRONG CREDENTIALS");
+            if (e instanceof UserException) {
+                throw new AuthException("WRONG CREDENTIALS");
             }
+
+            throw e;
         }
     }
 

@@ -1,11 +1,13 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { Test, TestingModule } from "@nestjs/testing";
 import { UserController } from "./user.controller";
-import { UserService } from "./user.service";
+import { UserService, UserException } from "./user.service";
 import { AuthService } from "src/auth/auth.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { User } from "./entities/user.entity";
 import { UpdateUserDto } from "./dto/update-user.dto";
+import { HttpException, HttpStatus } from "@nestjs/common";
+import { ExpertiseException } from "src/expertise/expertise.service";
 
 describe("UserController", () => {
     let controller: UserController;
@@ -40,7 +42,43 @@ describe("UserController", () => {
         
         expect(controller.create(dto))
             .resolves
-            .toBe("jwt");
+            .toStrictEqual({ token: "jwt" });
+    });
+
+    it("should return status conflict with user error", () => {
+        const dto = new CreateUserDto();
+
+        mockService.create = async () => {
+            throw new UserException("DUPLICATE EMAIL");
+        };
+        
+        expect(controller.create(dto))
+            .rejects
+            .toThrow(new HttpException("DUPLICATE EMAIL", HttpStatus.CONFLICT));
+    });
+
+    it("should return status not found with expertise error", () => {
+        const dto = new CreateUserDto();
+
+        mockService.create = async () => {
+            throw new ExpertiseException("EXPERTISE DOESNT EXIST");
+        };
+        
+        expect(controller.create(dto))
+            .rejects
+            .toThrow(new HttpException("EXPERTISE DOESNT EXIST", HttpStatus.NOT_FOUND));
+    });
+
+    it("should rethrows with unknown error", () => {
+        const dto = new CreateUserDto();
+
+        mockService.create = async () => {
+            throw new Error("unknown");
+        };
+        
+        expect(controller.create(dto))
+            .rejects
+            .toThrow("unknown");
     });
 
     it("should return all users without password on get all", () => {
@@ -62,6 +100,26 @@ describe("UserController", () => {
         expect(controller.findOne("teste"))
             .resolves
             .toSatisfy(({ username }: User) => username === user.username);
+    });
+
+    it("should return status not found with non existent user error", () => {
+        mockService.findOne = async () => {
+            throw new UserException("USER DOESNT EXIST");
+        };
+        
+        expect(controller.findOne("teste"))
+            .rejects
+            .toThrow(new HttpException("USER DOESNT EXIST", HttpStatus.NOT_FOUND));
+    });
+
+    it("should rethrows with unknown error", () => {
+        mockService.findOne = async () => {
+            throw new Error("unknown");
+        };
+        
+        expect(controller.findOne("teste"))
+            .rejects
+            .toThrow("unknown");
     });
 
     it("should not throws on patch", () => {
