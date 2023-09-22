@@ -2,28 +2,26 @@ import { describe, it, expect, beforeEach } from "vitest";
 import { Test, TestingModule } from "@nestjs/testing";
 import { UserController } from "./user.controller";
 import { UserService } from "./user.service";
-import { getRepositoryToken } from "@nestjs/typeorm";
-import { User } from "./entities/user.entity";
-import { Repository } from "typeorm";
 import { AuthService } from "src/auth/auth.service";
-
-type Mock = Partial<Repository<User>>;
+import { CreateUserDto } from "./dto/create-user.dto";
+import { User } from "./entities/user.entity";
+import { UpdateUserDto } from "./dto/update-user.dto";
 
 describe("UserController", () => {
     let controller: UserController;
-    const mockRepository: Mock = {};
+    let mockService: Partial<UserService> = {};
     let mockAuth: Partial<AuthService> = {};
 
     beforeEach(async () => {
         mockAuth = {};
+        mockService = {};
 
         const module: TestingModule = await Test.createTestingModule({
             controllers: [UserController],
             providers: [
-                UserService,
                 {
-                    provide: getRepositoryToken(User),
-                    useValue: mockRepository,
+                    provide: UserService,
+                    useValue: mockService,
                 },
                 {
                     provide: AuthService,
@@ -35,7 +33,50 @@ describe("UserController", () => {
         controller = module.get<UserController>(UserController);
     });
 
-    it("should be defined", () => {
-        expect(controller).toBeDefined();
+    it("should return jwt on post", () => {
+        const dto = new CreateUserDto();
+
+        mockService.create = async () => "jwt";
+        
+        expect(controller.create(dto))
+            .resolves
+            .toBe("jwt");
+    });
+
+    it("should return all users without password on get all", () => {
+        const user = new User();
+
+        mockService.findAll = async () => [user];
+
+        expect(controller.findAll())
+            .resolves
+            .not.toSatisfy((user: object) => "hashPassword" in user);
+    });
+
+    it("should return the correct user on get", () => {
+        const user = new User();
+        user.username = "teste";
+
+        mockService.findOne = async () => user;
+
+        expect(controller.findOne("teste"))
+            .resolves
+            .toSatisfy(({ username }: User) => username === user.username);
+    });
+
+    it("should not throws on patch", () => {
+        mockService.update = async () => true;
+
+        expect(controller.update("teste", new UpdateUserDto()))
+            .resolves
+            .not.toThrow();
+    });
+
+    it("should not throws on delete", () => {
+        mockService.remove = async () => true;
+
+        expect(controller.remove("teste"))
+            .resolves
+            .not.toThrow();
     });
 });
