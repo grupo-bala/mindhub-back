@@ -5,6 +5,7 @@ import { JwtService } from "@nestjs/jwt";
 import { UserError, UserService } from "src/user/user.service";
 import { GenericError } from "src/util/error";
 import { User } from "src/user/entities/user.entity";
+import { ConfigModule } from "@nestjs/config";
 
 describe("AuthService", () => {
     let service: AuthService;
@@ -14,6 +15,7 @@ describe("AuthService", () => {
         userMock = {};
 
         const module: TestingModule = await Test.createTestingModule({
+            imports: [ConfigModule],
             providers: [
                 AuthService,
                 {
