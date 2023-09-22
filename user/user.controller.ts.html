@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">70.58% </span>
+                <span class="strong">51.21% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>24/34</span>
+                <span class='fraction'>21/41</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">70.58% </span>
+                <span class="strong">51.21% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>24/34</span>
+                <span class='fraction'>21/41</span>
             </div>
         
             
@@ -97,7 +97,14 @@
 <a name='L32'></a><a href='#L32'>32</a>
 <a name='L33'></a><a href='#L33'>33</a>
 <a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -106,63 +113,77 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Controller, Get, Post, Body, Patch, Param, Delete } from "@nestjs/common";
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, ClassSerializerInterceptor } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
+import { ApiTags } from "@nestjs/swagger";
 &nbsp;
+@ApiTags("user")
 @Controller("user")
 export class UserController {
     constructor(private readonly userService: <span class="branch-0 cbranch-no" title="branch not covered" >UserService) {</span> }
 &nbsp;
-    @Post()
-<span class="fstat-no" title="function not covered" >    create(@Body() createUserDto: <span class="branch-0 cbranch-no" title="branch not covered" >CreateUserDto)</span> {</span>
-<span class="cstat-no" title="statement not covered" >        return this.userService.create(createUserDto);</span>
+<span class="fstat-no" title="function not covered" >    @Post()</span>
+<span class="cstat-no" title="statement not covered" >    async create(@Body() createUserDto: <span class="branch-0 cbranch-no" title="branch not covered" >CreateUserDto)</span> {</span>
+<span class="cstat-no" title="statement not covered" >        return await this.userService.create(createUserDto);</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 &nbsp;
-    @Get()
-<span class="fstat-no" title="function not covered" >    findAll() {</span>
-<span class="cstat-no" title="statement not covered" >        return this.userService.findAll();</span>
+<span class="fstat-no" title="function not covered" >    @UseInterceptors(ClassSerializerInterceptor)</span>
+<span class="cstat-no" title="statement not covered" >    @Get()</span>
+<span class="cstat-no" title="statement not covered" >    async findAll() {</span>
+<span class="cstat-no" title="statement not covered" >        return await this.userService.findAll();</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 &nbsp;
-    @Get(":id")
-<span class="fstat-no" title="function not covered" >    findOne(@Param("id") id: string) {</span>
-<span class="cstat-no" title="statement not covered" >        return this.userService.findOne(id);</span>
+<span class="fstat-no" title="function not covered" >    @UseInterceptors(ClassSerializerInterceptor)</span>
+<span class="cstat-no" title="statement not covered" >    @Get(":username")</span>
+<span class="cstat-no" title="statement not covered" >    async findOne(@Param("username") username: string) {</span>
+<span class="cstat-no" title="statement not covered" >        return await this.userService.findOne(username);</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 &nbsp;
-    @Patch(":id")
-<span class="fstat-no" title="function not covered" >    update(@Param("id") id: string, @Body() updateUserDto: <span class="branch-0 cbranch-no" title="branch not covered" >UpdateUserDto)</span> {</span>
-<span class="cstat-no" title="statement not covered" >        return this.userService.update(id, updateUserDto);</span>
+<span class="fstat-no" title="function not covered" >    @Patch(":username")</span>
+<span class="cstat-no" title="statement not covered" >    async update(</span>
+<span class="cstat-no" title="statement not covered" >        @Param("username") username: string,</span>
+<span class="cstat-no" title="statement not covered" >        @Body() updateUserDto: <span class="branch-0 cbranch-no" title="branch not covered" >UpdateUserDto,</span></span>
+<span class="cstat-no" title="statement not covered" >    ) {</span>
+<span class="cstat-no" title="statement not covered" >        await this.userService.update(username, updateUserDto);</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 &nbsp;
-    @Delete(":id")
-<span class="fstat-no" title="function not covered" >    remove(@Param("id") id: string) {</span>
-<span class="cstat-no" title="statement not covered" >        return this.userService.remove(+id);</span>
+<span class="fstat-no" title="function not covered" >    @Delete(":username")</span>
+<span class="cstat-no" title="statement not covered" >    async remove(@Param("username") username: string) {</span>
+<span class="cstat-no" title="statement not covered" >        await this.userService.remove(username);</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -172,7 +193,7 @@ export class UserController {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-09-21T21:43:18.358Z
+                at 2023-09-22T00:03:25.835Z
             </div>
         <script src="../prettify.js"></script>
         <script>
