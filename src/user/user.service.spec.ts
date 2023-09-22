@@ -7,6 +7,7 @@ import { CreateUserDto } from "./dto/create-user.dto";
 import { Repository } from "typeorm";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { AuthService } from "src/auth/auth.service";
+import { ExpertiseException } from "src/expertise/expertise.service";
 
 describe("UserService", () => {
     let service: UserService;
@@ -92,6 +93,21 @@ describe("UserService", () => {
         expect(service.create(user))
             .rejects
             .toThrow(new UserException("USER CAN HAVE UNTIL 3 EXPERTISES"));
+    });
+
+    it("should throw with non existent expertise", () => {
+        const user = new CreateUserDto();
+        user.expertises = [""];
+
+        mockAuth.signUp = async () => ({ hash: "", jwt: "" });
+        mockRepository.findOneBy = async () => null;
+        mockRepository.save = async () => {
+            throw new Error();
+        };
+
+        expect(service.create(user))
+            .rejects
+            .toThrow(new ExpertiseException("EXPERTISE DOESNT EXIST"));
     });
 
     it("should return all users", () => {
