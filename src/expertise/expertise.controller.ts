@@ -9,13 +9,17 @@ export class ExpertiseController {
 
     @Get()
     async findAll() {
-        return await this.expertiseService.findAll();
+        return {
+            expertises: await this.expertiseService.findAll(),
+        };
     }
 
     @Get(":title")
     async findOne(@Param("title") title: string) {
         try {
-            return await this.expertiseService.findOne(title);
+            return {
+                expertise: await this.expertiseService.findOne(title),
+            };
         } catch (e) {
             if (e instanceof ExpertiseException) {
                 throw new HttpException(e.name, HttpStatus.NOT_FOUND);

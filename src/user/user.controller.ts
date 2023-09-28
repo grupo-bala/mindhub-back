@@ -4,6 +4,7 @@ import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { ExpertiseException } from "src/expertise/expertise.service";
+import { instanceToPlain } from "class-transformer";
 
 @ApiTags("user")
 @ApiBearerAuth()
@@ -31,14 +32,18 @@ export class UserController {
     @UseInterceptors(ClassSerializerInterceptor)
     @Get()
     async findAll() {
-        return await this.userService.findAll();
+        return {
+            users: instanceToPlain(await this.userService.findAll()),
+        };
     }
 
     @UseInterceptors(ClassSerializerInterceptor)
     @Get(":username")
     async findOne(@Param("username") username: string) {
         try {
-            return await this.userService.findOne(username);
+            return {
+                user: instanceToPlain(await this.userService.findOne(username)),
+            };
         } catch (e) {
             if (e instanceof UserException && e.name === "USER DOESNT EXIST") {
                 throw new HttpException(e.name, HttpStatus.NOT_FOUND);
