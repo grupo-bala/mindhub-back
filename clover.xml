@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1696456282892" clover="3.2.0">
-  <project timestamp="1696456282892" name="All files">
-    <metrics statements="620" coveredstatements="602" conditionals="109" coveredconditionals="87" methods="41" coveredmethods="41" elements="770" coveredelements="730" complexity="0" loc="620" ncloc="620" packages="10" files="16" classes="16"/>
+<coverage generated="1696456710399" clover="3.2.0">
+  <project timestamp="1696456710399" name="All files">
+    <metrics statements="618" coveredstatements="600" conditionals="108" coveredconditionals="86" methods="41" coveredmethods="41" elements="767" coveredelements="727" complexity="0" loc="618" ncloc="618" packages="10" files="16" classes="16"/>
     <package name="auth">
       <metrics statements="93" coveredstatements="93" conditionals="19" coveredconditionals="14" methods="6" coveredmethods="6"/>
       <file name="auth.controller.ts" path="/home/runner/work/mindhub-back/mindhub-back/src/auth/auth.controller.ts">
@@ -433,9 +433,9 @@
       </file>
     </package>
     <package name="user">
-      <metrics statements="191" coveredstatements="185" conditionals="42" coveredconditionals="35" methods="13" coveredmethods="13"/>
+      <metrics statements="189" coveredstatements="183" conditionals="41" coveredconditionals="34" methods="13" coveredmethods="13"/>
       <file name="user.controller.ts" path="/home/runner/work/mindhub-back/mindhub-back/src/user/user.controller.ts">
-        <metrics statements="71" coveredstatements="71" conditionals="19" coveredconditionals="16" methods="6" coveredmethods="6"/>
+        <metrics statements="69" coveredstatements="69" conditionals="18" coveredconditionals="15" methods="6" coveredmethods="6"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -456,57 +456,55 @@
         <line num="18" count="4" type="stmt"/>
         <line num="19" count="4" type="stmt"/>
         <line num="20" count="4" type="cond" truecount="1" falsecount="0"/>
-        <line num="21" count="1" type="stmt"/>
-        <line num="22" count="4" type="cond" truecount="1" falsecount="0"/>
-        <line num="23" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="21" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="23" count="3" type="cond" truecount="2" falsecount="0"/>
         <line num="24" count="1" type="stmt"/>
-        <line num="25" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="25" count="1" type="cond" truecount="1" falsecount="0"/>
         <line num="26" count="1" type="stmt"/>
-        <line num="27" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="27" count="1" type="stmt"/>
         <line num="28" count="1" type="stmt"/>
-        <line num="29" count="1" type="stmt"/>
+        <line num="29" count="4" type="stmt"/>
         <line num="30" count="1" type="stmt"/>
-        <line num="31" count="4" type="stmt"/>
+        <line num="31" count="1" type="cond" truecount="1" falsecount="0"/>
         <line num="32" count="1" type="stmt"/>
-        <line num="33" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="33" count="1" type="stmt"/>
         <line num="34" count="1" type="stmt"/>
         <line num="35" count="1" type="stmt"/>
         <line num="36" count="1" type="stmt"/>
         <line num="37" count="1" type="stmt"/>
         <line num="38" count="1" type="stmt"/>
-        <line num="39" count="1" type="stmt"/>
-        <line num="40" count="1" type="stmt"/>
-        <line num="41" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="39" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="40" count="3" type="stmt"/>
+        <line num="41" count="3" type="stmt"/>
         <line num="42" count="3" type="stmt"/>
         <line num="43" count="3" type="stmt"/>
-        <line num="44" count="3" type="stmt"/>
-        <line num="45" count="3" type="stmt"/>
+        <line num="44" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="45" count="1" type="stmt"/>
         <line num="46" count="3" type="cond" truecount="1" falsecount="0"/>
-        <line num="47" count="1" type="stmt"/>
-        <line num="48" count="3" type="cond" truecount="1" falsecount="0"/>
-        <line num="49" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="47" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="48" count="1" type="stmt"/>
+        <line num="49" count="1" type="stmt"/>
         <line num="50" count="1" type="stmt"/>
         <line num="51" count="1" type="stmt"/>
         <line num="52" count="1" type="stmt"/>
-        <line num="53" count="1" type="stmt"/>
+        <line num="53" count="3" type="stmt"/>
         <line num="54" count="1" type="stmt"/>
-        <line num="55" count="3" type="stmt"/>
+        <line num="55" count="1" type="cond" truecount="1" falsecount="0"/>
         <line num="56" count="1" type="stmt"/>
-        <line num="57" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="57" count="1" type="stmt"/>
         <line num="58" count="1" type="stmt"/>
-        <line num="59" count="1" type="stmt"/>
+        <line num="59" count="1" type="cond" truecount="0" falsecount="1"/>
         <line num="60" count="1" type="stmt"/>
-        <line num="61" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="61" count="1" type="stmt"/>
         <line num="62" count="1" type="stmt"/>
         <line num="63" count="1" type="stmt"/>
-        <line num="64" count="1" type="stmt"/>
+        <line num="64" count="1" type="cond" truecount="1" falsecount="0"/>
         <line num="65" count="1" type="stmt"/>
-        <line num="66" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="66" count="1" type="stmt"/>
         <line num="67" count="1" type="stmt"/>
         <line num="68" count="1" type="stmt"/>
         <line num="69" count="1" type="stmt"/>
-        <line num="70" count="1" type="stmt"/>
-        <line num="71" count="1" type="stmt"/>
       </file>
       <file name="user.service.ts" path="/home/runner/work/mindhub-back/mindhub-back/src/user/user.service.ts">
         <metrics statements="120" coveredstatements="114" conditionals="23" coveredconditionals="19" methods="7" coveredmethods="7"/>
