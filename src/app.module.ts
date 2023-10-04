@@ -4,6 +4,7 @@ import { UserModule } from "./user/user.module";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { AuthModule } from "./auth/auth.module";
 import { ExpertiseModule } from "./expertise/expertise.module";
+import { MaterialModule } from "./material/material.module";
 
 @Module({
     imports: [
@@ -28,6 +29,7 @@ import { ExpertiseModule } from "./expertise/expertise.module";
         UserModule,
         AuthModule,
         ExpertiseModule,
+        MaterialModule,
     ],
     controllers: [],
     providers: [],
