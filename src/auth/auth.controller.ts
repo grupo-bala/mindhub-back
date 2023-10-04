@@ -2,6 +2,7 @@ import { Body, Controller, HttpException, HttpStatus, Post } from "@nestjs/commo
 import { AuthException, AuthService } from "./auth.service";
 import { LoginDTO } from "./dto/login.dto";
 import { ApiTags } from "@nestjs/swagger";
+import { instanceToPlain } from "class-transformer";
 
 @ApiTags("auth")
 @Controller("auth")
@@ -15,9 +16,7 @@ export class AuthController {
         @Body() { username, password }: LoginDTO
     ) {
         try {
-            return {
-                token: await this.authService.signIn(username, password),
-            };
+            return instanceToPlain(await this.authService.signIn(username, password));
         } catch (e) {
             if (e instanceof AuthException) {
                 throw new HttpException(e.name, HttpStatus.UNAUTHORIZED);

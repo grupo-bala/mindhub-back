@@ -4,6 +4,7 @@ import { AuthException, AuthService } from "./auth.service";
 import { Test, TestingModule } from "@nestjs/testing";
 import { LoginDTO } from "./dto/login.dto";
 import { HttpException, HttpStatus } from "@nestjs/common";
+import { User } from "src/user/entities/user.entity";
 
 describe("AuthController", () => {
     let controller: AuthController;
@@ -26,11 +27,11 @@ describe("AuthController", () => {
     });
 
     it("should return jwt on login", () => {
-        mockAuth.signIn = async () => "jwt";
+        mockAuth.signIn = async () => ({ token: "jwt", user: new User() });
 
         expect(controller.login(new LoginDTO()))
             .resolves
-            .toStrictEqual({ token: "jwt" });
+            .toSatisfy((user: { token: string, user: User }) => user.token === "jwt");
     });
 
     it("should return status unauthorized with wrong credentials", () => {

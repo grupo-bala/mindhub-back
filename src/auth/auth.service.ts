@@ -34,9 +34,13 @@ export class AuthService {
             }
             
             const payload = { sub: user.username };
-            return await this.jwtService.signAsync(payload, {
-                secret: this.configService.get("JWT_SECRET"),
-            });
+
+            return {
+                token: await this.jwtService.signAsync(payload, {
+                    secret: this.configService.get("JWT_SECRET")
+                }),
+                user
+            };
         } catch (e) {
             if (e instanceof UserException) {
                 throw new AuthException("WRONG CREDENTIALS");
