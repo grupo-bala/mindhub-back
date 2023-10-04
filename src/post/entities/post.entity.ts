@@ -1,5 +1,5 @@
 import { User } from "src/user/entities/user.entity";
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export abstract class Post {
@@ -12,6 +12,7 @@ export abstract class Post {
     @Column({type: "text", nullable: false})
         content: string;
 
-    @OneToOne(() => User, user => user.username)
+    @OneToOne(() => User)
+    @JoinColumn()
         user: User;
 }
