@@ -88,7 +88,9 @@ describe("UserController", () => {
 
         expect(controller.findAll())
             .resolves
-            .not.toSatisfy((user: object) => "hashPassword" in user);
+            .toSatisfy(({ users }: { users: User[] }) => {
+                return users.every(user => !("hashPassword" in user));
+            });
     });
 
     it("should return the correct user on get", () => {
@@ -99,7 +101,9 @@ describe("UserController", () => {
 
         expect(controller.findOne("teste"))
             .resolves
-            .toSatisfy(({ username }: User) => username === user.username);
+            .toSatisfy(
+                ({ user: returnedUser }: { user: User }) => returnedUser.username === user.username
+            );
     });
 
     it("should return status not found with non existent user error", () => {
