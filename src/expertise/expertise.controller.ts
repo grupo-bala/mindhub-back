@@ -1,6 +1,8 @@
 import { Controller, Get, HttpException, HttpStatus, Param } from "@nestjs/common";
 import { ExpertiseException, ExpertiseService } from "./expertise.service";
+import { ApiTags } from "@nestjs/swagger";
 
+@ApiTags("expertise")
 @Controller("expertise")
 export class ExpertiseController {
     constructor(

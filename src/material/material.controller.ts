@@ -3,7 +3,9 @@ import { MaterialException, MaterialService } from "./material.service";
 import { CreateMaterialDto } from "./dto/create-material.dto";
 import { UpdateMaterialDto } from "./dto/update-material.dto";
 import { ExpertiseException } from "src/expertise/expertise.service";
+import { ApiTags } from "@nestjs/swagger";
 
+@ApiTags("material")
 @Controller("material")
 export class MaterialController {
     constructor(private readonly materialService: MaterialService) {}
