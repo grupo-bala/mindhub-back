@@ -7,6 +7,7 @@ import { Repository } from "typeorm";
 import { AuthService } from "src/auth/auth.service";
 import { Expertise } from "src/expertise/entities/expertise.entity";
 import { ExpertiseException } from "src/expertise/expertise.service";
+import { instanceToPlain } from "class-transformer";
 
 type UserError =
     | "DUPLICATE EMAIL"
@@ -47,17 +48,23 @@ export class UserService {
         const { hash, jwt } = await this.authService.signUp(username, password);
 
         try {
-            await this.userRepository.save({
-                name,
-                username,
-                email,
-                hashPassword: hash,
-                expertises: expertises.map(e => {
-                    const expertise = new Expertise();
-                    expertise.title = e;
-                    return expertise;
-                }),
+            const user = new User();
+            user.name = name;
+            user.username = username;
+            user.email = email;
+            user.hashPassword = hash;
+            user.expertises = expertises.map(e => {
+                const expertise = new Expertise();
+                expertise.title = e;
+                return expertise;
             });
+
+            await this.userRepository.save(user);
+
+            return {
+                token: jwt,
+                ...instanceToPlain(user),
+            };
         } catch (e) {
             const error = e as Error;
 
@@ -67,8 +74,6 @@ export class UserService {
 
             throw error;
         }
-
-        return jwt;
     }
 
     async findAll() {
