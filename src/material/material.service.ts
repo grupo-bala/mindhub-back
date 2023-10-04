@@ -46,7 +46,6 @@ export class MaterialService {
                     return expertise;
                 }),
             });
-            console.log("aqui");
         } catch (error) {
             throw new ExpertiseException("EXPERTISE DOESNT EXIST");
         }
