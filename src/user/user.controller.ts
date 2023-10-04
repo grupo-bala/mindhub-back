@@ -16,9 +16,7 @@ export class UserController {
     @Post()
     async create(@Body() createUserDto: CreateUserDto) {
         try {
-            return {
-                token: await this.userService.create(createUserDto)
-            };
+            return await this.userService.create(createUserDto);
         } catch (e) {
             if (e instanceof UserException) {
                 throw new HttpException(e.name, HttpStatus.CONFLICT);

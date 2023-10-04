@@ -38,11 +38,11 @@ describe("UserController", () => {
     it("should return jwt on post", () => {
         const dto = new CreateUserDto();
 
-        mockService.create = async () => "jwt";
+        mockService.create = async () => ({ token: "jwt" });
         
         expect(controller.create(dto))
             .resolves
-            .toStrictEqual({ token: "jwt" });
+            .toSatisfy((user: { token: string }) => user.token === "jwt");
     });
 
     it("should return status conflict with user error", () => {
