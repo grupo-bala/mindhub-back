@@ -39,7 +39,7 @@ export class AuthService {
                 token: await this.jwtService.signAsync(payload, {
                     secret: this.configService.get("JWT_SECRET")
                 }),
-                user
+                ...user
             };
         } catch (e) {
             if (e instanceof UserException) {

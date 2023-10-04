@@ -27,11 +27,11 @@ describe("AuthController", () => {
     });
 
     it("should return jwt on login", () => {
-        mockAuth.signIn = async () => ({ token: "jwt", user: new User() });
+        mockAuth.signIn = async () => ({ token: "jwt", ...(new User()) });
 
         expect(controller.login(new LoginDTO()))
             .resolves
-            .toSatisfy((user: { token: string, user: User }) => user.token === "jwt");
+            .toSatisfy((user: { token: string }) => user.token === "jwt");
     });
 
     it("should return status unauthorized with wrong credentials", () => {
