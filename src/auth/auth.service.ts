@@ -3,6 +3,7 @@ import { UserService, UserException } from "src/user/user.service";
 import * as bcrypt from "bcrypt";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from "@nestjs/config";
+import { instanceToPlain } from "class-transformer";
 
 type AuthError =
     | "WRONG CREDENTIALS";
@@ -39,7 +40,7 @@ export class AuthService {
                 token: await this.jwtService.signAsync(payload, {
                     secret: this.configService.get("JWT_SECRET")
                 }),
-                ...user
+                ...instanceToPlain(user)
             };
         } catch (e) {
             if (e instanceof UserException) {
