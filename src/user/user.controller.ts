@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, ClassSerializerInterceptor, HttpException, HttpStatus } from "@nestjs/common";
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, ClassSerializerInterceptor, HttpException, HttpStatus, UseGuards } from "@nestjs/common";
 import { UserService, UserException } from "./user.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { ExpertiseException } from "src/expertise/expertise.service";
 import { instanceToPlain } from "class-transformer";
+import { AuthGuard } from "src/auth/auth.guard";
 
 @ApiTags("user")
 @ApiBearerAuth()
@@ -54,6 +55,7 @@ export class UserController {
     }
 
     @Patch(":username")
+    @UseGuards(AuthGuard)
     async update(
         @Param("username") username: string,
         @Body() updateUserDto: UpdateUserDto,
@@ -62,6 +64,7 @@ export class UserController {
     }
 
     @Delete(":username")
+    @UseGuards(AuthGuard)
     async remove(@Param("username") username: string) {
         await this.userService.remove(username);
     }
