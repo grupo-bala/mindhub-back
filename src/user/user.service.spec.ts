@@ -124,7 +124,7 @@ describe("UserService", () => {
         const user = new User();
         user.username = "teste";
         
-        mockRepository.findOneBy = async () => {
+        mockRepository.findOne = async () => {
             return user;
         };
 
@@ -134,7 +134,7 @@ describe("UserService", () => {
     });
 
     it("should return null for non existent username", () => {
-        mockRepository.findOneBy = async () => {
+        mockRepository.findOne = async () => {
             return null;
         };
 
