@@ -33,7 +33,7 @@ export class UserService {
         private authService: AuthService,
     ) { }
 
-    async create({ username, password, email, expertises }: CreateUserDto) {
+    async create({ username, password, email, expertises, name }: CreateUserDto) {
         if (await this.userRepository.findOneBy({ email: email })) {
             throw new UserException("DUPLICATE EMAIL");
         } else if (await this.userRepository.findOneBy({ username: username })) {
@@ -48,6 +48,7 @@ export class UserService {
 
         try {
             await this.userRepository.save({
+                name,
                 username,
                 email,
                 hashPassword: hash,
@@ -58,18 +59,36 @@ export class UserService {
                 }),
             });
         } catch (e) {
-            throw new ExpertiseException("EXPERTISE DOESNT EXIST");
+            const error = e as Error;
+
+            if (error.message.includes("expertise")) {
+                throw new ExpertiseException("EXPERTISE DOESNT EXIST");
+            }
+
+            throw error;
         }
 
         return jwt;
     }
 
     async findAll() {
-        return this.userRepository.find();
+        return this.userRepository.find({
+            relations: {
+                expertises: true,
+            }
+        });
     }
 
     async findOne(username: string) {
-        const user = await this.userRepository.findOneBy({ username });
+        const user = await this.userRepository.findOne({
+            where: {
+                username
+            },
+            relations: {
+                expertises: true,
+            }
+        });
+        
         if (user) {
             return user;
         } else {
