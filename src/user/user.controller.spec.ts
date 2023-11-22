@@ -8,6 +8,8 @@ import { User } from "./entities/user.entity";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { HttpException, HttpStatus } from "@nestjs/common";
 import { ExpertiseException } from "src/expertise/expertise.service";
+import { JwtService } from "@nestjs/jwt";
+import { ConfigService } from "@nestjs/config";
 
 describe("UserController", () => {
     let controller: UserController;
@@ -21,6 +23,8 @@ describe("UserController", () => {
         const module: TestingModule = await Test.createTestingModule({
             controllers: [UserController],
             providers: [
+                JwtService,
+                ConfigService,
                 {
                     provide: UserService,
                     useValue: mockService,
