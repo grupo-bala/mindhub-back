@@ -8,6 +8,7 @@ import { AuthService } from "src/auth/auth.service";
 import { Expertise } from "src/expertise/entities/expertise.entity";
 import { ExpertiseException } from "src/expertise/expertise.service";
 import { instanceToPlain } from "class-transformer";
+import { Badge } from "src/badge/entities/badge.entity";
 
 type UserError =
     | "DUPLICATE EMAIL"
@@ -58,6 +59,13 @@ export class UserService {
                 expertise.title = e;
                 return expertise;
             });
+            
+            const initialBadge = new Badge();
+            initialBadge.id = 1;
+            initialBadge.title = "Aprendiz";
+            user.currentBadge = initialBadge;
+            
+            user.badges = [initialBadge];
 
             await this.userRepository.save(user);
 
@@ -80,6 +88,8 @@ export class UserService {
         return this.userRepository.find({
             relations: {
                 expertises: true,
+                badges: true,
+                currentBadge: true,
             }
         });
     }
@@ -91,6 +101,8 @@ export class UserService {
             },
             relations: {
                 expertises: true,
+                badges: true,
+                currentBadge: true,
             }
         });
         

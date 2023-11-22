@@ -1,6 +1,8 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
 import { Exclude } from "class-transformer";
 import { Expertise } from "src/expertise/entities/expertise.entity";
+import { Post } from "src/post/entities/post.entity";
+import { Badge } from "src/badge/entities/badge.entity";
 
 @Entity()
 export class User {
@@ -19,9 +21,16 @@ export class User {
 
     @Column({ nullable: false, default: 0 })
         xp: number;
+    
+    @ManyToOne(() => Badge, badge => badge.currentUsers)
+        currentBadge: Badge;
+    
+    @ManyToMany(() => Badge, badge => badge.id)
+    @JoinTable()
+        badges: Badge[];
 
-    @Column({ nullable: false, default: 0 })
-        currentBadge: number;
+    @OneToMany(() => Post, post => post.user)
+        post: Post[];
     
     @ManyToMany(() => Expertise, expertise => expertise.title)
     @JoinTable()

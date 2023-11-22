@@ -7,6 +7,7 @@ import { ExpertiseModule } from "./expertise/expertise.module";
 import { MaterialModule } from "./material/material.module";
 import { EventsModule } from "./events/events.module";
 import { PostModule } from "./post/post.module";
+import { BadgeModule } from "./badge/badge.module";
 
 @Module({
     imports: [
@@ -34,6 +35,7 @@ import { PostModule } from "./post/post.module";
         PostModule,
         MaterialModule,
         EventsModule,
+        BadgeModule
     ],
     controllers: [],
     providers: [],
