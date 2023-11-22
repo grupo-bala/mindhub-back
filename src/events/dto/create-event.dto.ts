@@ -1,9 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class CreateEventDto {
-    @ApiProperty()
-        username: string;
-    
+export class CreateEventDto {    
     @ApiProperty()
         title: string;
 
@@ -11,11 +8,17 @@ export class CreateEventDto {
         content: string;
     
     @ApiProperty()
-        timestamp: string;
-    
-    @ApiProperty()
         longitude: number;
     
     @ApiProperty()
         latitude: number;
+    
+    @ApiProperty()
+        date: string;
+
+    @ApiProperty()
+        postDate: string;
+    
+    @ApiProperty()
+        localName: string;
 }

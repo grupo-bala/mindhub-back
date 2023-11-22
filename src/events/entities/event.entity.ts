@@ -9,6 +9,9 @@ export class Event extends Post {
     @Column({ type: "real" })
         latitude: number;
     
-    @Column({ type: "timestamp" })
-        timestamp: string;
+    @Column({ type: "text" })
+        date: string;
+    
+    @Column({ type: "text" })
+        localName: string;
 }

@@ -26,16 +26,19 @@ export class EventsService {
         private eventRepository: Repository<Event>,
     ) { }
 
-    async create(createEventDto: CreateEventDto) {
+    async create(createEventDto: CreateEventDto, username: string) {
         try {
             const user = new User();
-            user.username = createEventDto.username;
+            user.username = username;
+
             await this.eventRepository.save({
                 ...createEventDto,
                 user
             });
         } catch (e) {
             const error = e as Error;
+
+            console.log(e);
 
             if (error.message.includes("timestamp")) {
                 throw new EventException("TIMESTAMP INVALID");

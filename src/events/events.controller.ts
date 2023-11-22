@@ -1,21 +1,25 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus, UseGuards } from "@nestjs/common";
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus, UseGuards, Req } from "@nestjs/common";
 import { EventException, EventsService } from "./events.service";
 import { CreateEventDto } from "./dto/create-event.dto";
 import { UpdateEventDto } from "./dto/update-event.dto";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { instanceToPlain } from "class-transformer";
-import { AuthGuard } from "src/auth/auth.guard";
+import { AuthGuard, Request } from "src/auth/auth.guard";
 
 @ApiTags("events")
+@ApiBearerAuth()
 @Controller("events")
 export class EventsController {
     constructor(private readonly eventsService: EventsService) {}
 
     @Post()
     @UseGuards(AuthGuard)
-    async create(@Body() createEventDto: CreateEventDto) {
+    async create(
+        @Body() createEventDto: CreateEventDto,
+        @Req() req: Request,
+    ) {
         try {
-            await this.eventsService.create(createEventDto);
+            await this.eventsService.create(createEventDto, req.user.sub);
         } catch (e) {
             if (e instanceof EventException) {
                 throw new HttpException(e.name, HttpStatus.BAD_REQUEST);
