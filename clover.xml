@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1700684537113" clover="3.2.0">
-  <project timestamp="1700684537113" name="All files">
-    <metrics statements="639" coveredstatements="621" conditionals="110" coveredconditionals="86" methods="41" coveredmethods="41" elements="790" coveredelements="748" complexity="0" loc="639" ncloc="639" packages="10" files="16" classes="16"/>
+<coverage generated="1700687493010" clover="3.2.0">
+  <project timestamp="1700687493010" name="All files">
+    <metrics statements="639" coveredstatements="621" conditionals="109" coveredconditionals="86" methods="41" coveredmethods="41" elements="789" coveredelements="748" complexity="0" loc="639" ncloc="639" packages="10" files="16" classes="16"/>
     <package name="auth">
       <metrics statements="93" coveredstatements="93" conditionals="19" coveredconditionals="14" methods="6" coveredmethods="6"/>
       <file name="auth.controller.ts" path="/home/runner/work/mindhub-back/mindhub-back/src/auth/auth.controller.ts">
@@ -676,9 +676,9 @@
       </file>
     </package>
     <package name="user.entities">
-      <metrics statements="38" coveredstatements="38" conditionals="2" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <metrics statements="38" coveredstatements="38" conditionals="1" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="user.entity.ts" path="/home/runner/work/mindhub-back/mindhub-back/src/user/entities/user.entity.ts">
-        <metrics statements="38" coveredstatements="38" conditionals="2" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <metrics statements="38" coveredstatements="38" conditionals="1" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -704,7 +704,7 @@
         <line num="23" count="1" type="stmt"/>
         <line num="24" count="1" type="stmt"/>
         <line num="25" count="1" type="stmt"/>
-        <line num="26" count="1" type="cond" truecount="0" falsecount="2"/>
+        <line num="26" count="1" type="cond" truecount="0" falsecount="1"/>
         <line num="27" count="1" type="stmt"/>
         <line num="28" count="1" type="stmt"/>
         <line num="29" count="1" type="stmt"/>
