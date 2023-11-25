@@ -13,10 +13,10 @@ export class AuthController {
 
     @Post("login")
     async login(
-        @Body() { username, password }: LoginDTO
+        @Body() { email, password }: LoginDTO
     ) {
         try {
-            return instanceToPlain(await this.authService.signIn(username, password));
+            return instanceToPlain(await this.authService.signIn(email, password));
         } catch (e) {
             if (e instanceof AuthException) {
                 throw new HttpException(e.name, HttpStatus.UNAUTHORIZED);
