@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for auth/auth.service.ts</title>
+    <title>Code coverage report for events/events.service.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">auth</a> auth.service.ts</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">events</a> events.service.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>65/65</span>
+                <span class='fraction'>67/67</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">90% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>9/12</span>
+                <span class='fraction'>9/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>8/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>65/65</span>
+                <span class='fraction'>67/67</span>
             </div>
         
             
@@ -127,7 +127,10 @@
 <a name='L62'></a><a href='#L62'>62</a>
 <a name='L63'></a><a href='#L63'>63</a>
 <a name='L64'></a><a href='#L64'>64</a>
-<a name='L65'></a><a href='#L65'>65</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -141,44 +144,18 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -191,71 +168,103 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">import { Inject, Injectable, forwardRef } from "@nestjs/common";
-import { UserService, UserException } from "src/user/user.service";
-import * as bcrypt from "bcrypt";
-import { JwtService } from "@nestjs/jwt";
-import { ConfigService } from "@nestjs/config";
-import { instanceToPlain } from "class-transformer";
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Injectable } from "@nestjs/common";
+import { CreateEventDto } from "./dto/create-event.dto";
+import { UpdateEventDto } from "./dto/update-event.dto";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Event } from "./entities/event.entity";
+import { ILike, Repository } from "typeorm";
+import { User } from "src/user/entities/user.entity";
 &nbsp;
-type AuthError =
-    | "WRONG CREDENTIALS";
+type EventError = 
+    | "EVENT DOESNT EXIST";
 &nbsp;
-export class AuthException extends Error {
-    name: AuthError;
+export class EventException extends Error {
+    name: EventError;
 &nbsp;
-    constructor(name: AuthError) {
+    constructor(name: EventError) {
         super();
         this.name = name;
     }
 }
 &nbsp;
 @Injectable()
-export class AuthService {
+export class EventsService {
     constructor(
-        @Inject(forwardRef(() =&gt; UserService))
-        private userService: <span class="branch-0 cbranch-no" title="branch not covered" >UserService,</span>
-        private jwtService: <span class="branch-0 cbranch-no" title="branch not covered" >JwtService,</span>
-        private configService: <span class="branch-0 cbranch-no" title="branch not covered" >ConfigService,</span>
+        @InjectRepository(Event)
+        private eventRepository: <span class="branch-0 cbranch-no" title="branch not covered" >Repository&lt;Event&gt;,</span>
     ) { }
 &nbsp;
-    async signIn(username: string, password: string) {
-        try {
-            const user = await this.userService.findOne(username);
-            
-            if (!await bcrypt.compare(password, user.hashPassword)) {
-                throw new AuthException("WRONG CREDENTIALS");
-            }
-            
-            const payload = { sub: user.username };
+    async create(createEventDto: CreateEventDto, username: string) {
+        const user = new User();
+        user.username = username;
 &nbsp;
-            return {
-                token: await this.jwtService.signAsync(payload, {
-                    secret: this.configService.get("JWT_SECRET")
-                }),
-                ...instanceToPlain(user)
-            };
-        } catch (e) {
-            if (e instanceof UserException) {
-                throw new AuthException("WRONG CREDENTIALS");
-            }
+        await this.eventRepository.save({
+            ...createEventDto,
+            user
+        });
+    }
 &nbsp;
-            throw e;
+    async findAll() {
+        return await this.eventRepository.find();
+    }
+&nbsp;
+    async findOne(id: number) {
+        const event = await this.eventRepository.findOneBy({ id });
+&nbsp;
+        if (event) {
+            return event;
+        } else {
+            throw new EventException("EVENT DOESNT EXIST");
         }
     }
 &nbsp;
-    async signUp(username: string, password: string) {
-        const hash = await bcrypt.hash(password, 10);
-        const payload = { sub: username };
-&nbsp;
-        return {
-            hash,
-            jwt: await this.jwtService.signAsync(payload, {
-                secret: this.configService.get("JWT_SECRET"),
-            }),
-        };
+    async find(title: string) {
+        return await this.eventRepository.find({
+            where: {
+                title: ILike(title)
+            }
+        });
     }
-}</pre></td></tr></table></pre>
+&nbsp;
+    async update(id: number, updateEventDto: UpdateEventDto) {
+        return (await this.eventRepository.update(id, updateEventDto))!.affected! &gt; 0;
+    }
+&nbsp;
+    async remove(id: number) {
+        return (await this.eventRepository.delete(id)).affected! &gt; 0;
+    }
+}
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->

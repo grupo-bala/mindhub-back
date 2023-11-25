@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for user/entities/user.entity.ts</title>
+    <title>Code coverage report for events/dto/create-event.dto.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">user/entities</a> user.entity.ts</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">events/dto</a> create-event.dto.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>38/38</span>
+                <span class='fraction'>24/24</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>38/38</span>
+                <span class='fraction'>24/24</span>
             </div>
         
             
@@ -87,20 +87,7 @@
 <a name='L22'></a><a href='#L22'>22</a>
 <a name='L23'></a><a href='#L23'>23</a>
 <a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a>
-<a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a>
-<a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a>
-<a name='L36'></a><a href='#L36'>36</a>
-<a name='L37'></a><a href='#L37'>37</a>
-<a name='L38'></a><a href='#L38'>38</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L25'></a><a href='#L25'>25</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -124,57 +111,31 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
-import { Exclude } from "class-transformer";
-import { Expertise } from "src/expertise/entities/expertise.entity";
-import { Post } from "src/post/entities/post.entity";
-import { Badge } from "src/badge/entities/badge.entity";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { ApiProperty } from "@nestjs/swagger";
 &nbsp;
-@Entity()
-export class User {
-    @PrimaryColumn()
-        username: string;
+export class CreateEventDto {    
+    @ApiProperty()
+        title: string;
 &nbsp;
-    @Column()
-        name: string;
-&nbsp;
-    @Column({ unique: true })
-        email: string;
-&nbsp;
-    @Exclude()
-    @Column({ nullable: false })
-        hashPassword: string;
-&nbsp;
-    @Column({ nullable: false, default: 0 })
-        xp: number;
+    @ApiProperty()
+        content: string;
     
-    @ManyToOne(() =&gt; Badge, badge =&gt; badge.currentUsers)
-        currentBadge: <span class="branch-0 cbranch-no" title="branch not covered" >Badge;</span>
+    @ApiProperty()
+        longitude: number;
     
-    @ManyToMany(() =&gt; Badge, badge =&gt; badge.id)
-    @JoinTable()
-        badges: Badge[];
+    @ApiProperty()
+        latitude: number;
+    
+    @ApiProperty()
+        date: string;
 &nbsp;
-    @OneToMany(() =&gt; Post, post =&gt; post.user)
-        post: Post[];
+    @ApiProperty()
+        postDate: string;
     
-    @ManyToMany(() =&gt; Expertise, expertise =&gt; expertise.title)
-    @JoinTable()
-        expertises: Expertise[];
-}</pre></td></tr></table></pre>
+    @ApiProperty()
+        localName: string;
+}
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
