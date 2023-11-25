@@ -7,8 +7,7 @@ import { ILike, Repository } from "typeorm";
 import { User } from "src/user/entities/user.entity";
 
 type EventError = 
-    | "EVENT DOESNT EXIST"
-    | "TIMESTAMP INVALID";
+    | "EVENT DOESNT EXIST";
 
 export class EventException extends Error {
     name: EventError;
@@ -27,23 +26,13 @@ export class EventsService {
     ) { }
 
     async create(createEventDto: CreateEventDto, username: string) {
-        try {
-            const user = new User();
-            user.username = username;
+        const user = new User();
+        user.username = username;
 
-            await this.eventRepository.save({
-                ...createEventDto,
-                user
-            });
-        } catch (e) {
-            const error = e as Error;
-
-            console.log(e);
-
-            if (error.message.includes("timestamp")) {
-                throw new EventException("TIMESTAMP INVALID");
-            }
-        }
+        await this.eventRepository.save({
+            ...createEventDto,
+            user
+        });
     }
 
     async findAll() {
