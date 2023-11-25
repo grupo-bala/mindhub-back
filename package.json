@@ -17,7 +17,8 @@
     "test:watch": "vitest",
     "test:cov": "vitest --run --coverage",
     "test:e2e": "vitest --config ./test/jest-e2e.json",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "docker:test": "docker compose -f .docker/test/docker-compose.yml up --force-recreate --build"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
