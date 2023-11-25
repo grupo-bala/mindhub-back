@@ -1,0 +1,26 @@
+services:
+  web:
+    build:
+      context: ../../
+      dockerfile: .docker/test/Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    restart: always
+    networks:
+      - common
+
+  postgres:
+    container_name: postgreshost
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=mindhub
+    networks:
+      - common
+
+networks:
+  common: {}

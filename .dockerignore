@@ -1,0 +1,7 @@
+.docker/
+.github/
+.husky/
+coverage/
+dist/
+node_modules/
+.env
