@@ -6,6 +6,6 @@ export class Expertise {
     @PrimaryColumn({ nullable: false, unique: true })
         title: string;
     
-    @ManyToMany(() => User, user => user.username)
+    @ManyToMany(() => User, user => user.expertises)
         users: User[];
 }

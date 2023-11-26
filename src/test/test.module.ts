@@ -42,7 +42,6 @@ export class TestModule {
         const expertise = new Expertise();
         expertise.title = "Matemática";
         expertise.users = [];
-        // expertise.materials = [];
         await this.expertiseRepository.save(expertise);
 
         const badge = new Badge();

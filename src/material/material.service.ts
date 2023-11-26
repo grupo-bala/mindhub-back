@@ -34,17 +34,16 @@ export class MaterialService {
         } else if (expertise.length > 1) {
             throw new MaterialException("MATERIAL MAY HAVE ONLY 1 EXPERTISE");
         }
+
+        const expertiseEntity = new Expertise();
+        expertiseEntity.title = expertise;
         
         try {
             await this.materialRepository.save({
                 username,
                 title,
                 content,
-                expertise: expertise.map(e => {
-                    const expertise = new Expertise();
-                    expertise.title = e;
-                    return expertise;
-                }),
+                expertise: expertiseEntity,
             });
         } catch (error) {
             throw new ExpertiseException("EXPERTISE DOESNT EXIST");
@@ -76,13 +75,12 @@ export class MaterialService {
     }
 
     async update(id: number, updateMaterialDto: UpdateMaterialDto) {
+        const expertiseEntity = new Expertise();
+        expertiseEntity.title = updateMaterialDto.expertise ?? "";
+
         const parsedDto = {
             ...updateMaterialDto,
-            expertise: updateMaterialDto.expertise?.map(e => {
-                const expertise = new Expertise();
-                expertise.title = e;
-                return expertise;
-            }),
+            expertise: expertiseEntity,
         };
 
         return (await this.materialRepository.update(id, parsedDto))!.affected! > 0;

@@ -10,8 +10,6 @@ export class CreateMaterialDto {
     @ApiProperty()
         content: string;
 
-    @ApiProperty({
-        type: [String],
-    })
-        expertise: string[];
+    @ApiProperty()
+        expertise: string;
 }
