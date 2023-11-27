@@ -4,6 +4,7 @@ import { CreateMaterialDto } from "./dto/create-material.dto";
 import { UpdateMaterialDto } from "./dto/update-material.dto";
 import { ExpertiseException } from "src/expertise/expertise.service";
 import { ApiTags } from "@nestjs/swagger";
+import { instanceToPlain } from "class-transformer";
 
 @ApiTags("material")
 @Controller("material")
@@ -30,7 +31,7 @@ export class MaterialController {
         return await this.materialService.findAll();
     }
 
-    @Get(":id")
+    @Get("id/:id")
     async findOne(@Param("id") id: string) {
         try {
             return await this.materialService.findOne(+id);
@@ -43,17 +44,9 @@ export class MaterialController {
         }
     }
 
-    @Get(":title")
-    async find(@Param("title") title: string) {
-        try {
-            return await this.materialService.find(title);
-        } catch (e) {
-            if (e instanceof MaterialException && e.name === "MATERIAL DOESNT EXIST") {
-                throw new HttpException("MATERIAL DOESNT EXIST", HttpStatus.NOT_FOUND);
-            }
-
-            throw e;
-        }
+    @Get("user/:username")
+    async find(@Param("username") username: string) {
+        return instanceToPlain(await this.materialService.find(username));
     }
 
     @Patch(":id")

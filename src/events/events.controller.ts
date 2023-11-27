@@ -31,17 +31,13 @@ export class EventsController {
 
     @Get()
     async findAll() {
-        return {
-            events: instanceToPlain(await this.eventsService.findAll()),
-        };
+        return instanceToPlain(await this.eventsService.findAll());
     }
 
     @Get("id/:id")
     async findOne(@Param("id") id: string) {
         try {
-            return {
-                event: instanceToPlain(await this.eventsService.findOne(+id)),
-            };
+            return instanceToPlain(await this.eventsService.findOne(+id));
         } catch (e) {
             if (e instanceof EventException && e.name === "EVENT DOESNT EXIST") {
                 throw new HttpException(e.name, HttpStatus.NOT_FOUND);
@@ -53,9 +49,7 @@ export class EventsController {
 
     @Get("user/:username")
     async find(@Param("username") username: string) {
-        return {
-            events: instanceToPlain(await this.eventsService.find(username)),
-        };
+        return instanceToPlain(await this.eventsService.find(username));
     }
 
     @Patch(":id")

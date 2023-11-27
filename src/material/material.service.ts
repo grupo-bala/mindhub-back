@@ -54,14 +54,14 @@ export class MaterialService {
         return this.materialRepository.find();
     }
     
-    async find(title: string) {
-        const material = await this.materialRepository.findBy({ title });
-
-        if (material.length >= 1) {
-            return material;
-        } else {
-            throw new MaterialException("MATERIAL DOESNT EXIST");
-        }
+    async find(username: string) {
+        return await this.materialRepository.find({
+            where: {
+                user: {
+                    username
+                }
+            }
+        });
     }
     
     async findOne(id: number) {
