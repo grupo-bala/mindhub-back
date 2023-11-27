@@ -7,6 +7,7 @@ import { ExpertiseException } from "src/expertise/expertise.service";
 import { HttpException, HttpStatus } from "@nestjs/common";
 import { Material } from "./entities/material.entity";
 import { UpdateMaterialDto } from "./dto/update-material.dto";
+import { User } from "src/user/entities/user.entity";
 
 describe("MaterialController", () => {
     let controller: MaterialController;
@@ -83,17 +84,16 @@ describe("MaterialController", () => {
             .toSatisfy(({ id }: Material) => id === material.id);
     });
 
-    it("should return the correct material on get based on title", () => {
+    it("should return the correct material on get based on user", () => {
         const material1 = new Material();
-        material1.title = "sum";
+        material1.user = new User();
 
         const material2 = new Material();
-        material2.title = "sum of roots";
-
+        material2.user = new User();
 
         mockService.find = async () => [material1, material2];
 
-        expect(controller.find("sum"))
+        expect(controller.find("test"))
             .resolves
             .toHaveLength(2);
     });
@@ -126,7 +126,7 @@ describe("MaterialController", () => {
             .not.toThrow();
     });
 
-    it("shoul not throws on delete", () => {
+    it("should not throws on delete", () => {
         mockService.remove = async () => true;
 
         expect(controller.remove("1"))

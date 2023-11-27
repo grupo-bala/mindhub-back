@@ -29,12 +29,6 @@ export class MaterialService {
     ) { }
 
     async create({ username, title, content, expertise }: CreateMaterialDto) {
-        if (expertise.length < 1) {
-            throw new MaterialException("MATERIAL NEED ONE EXPERTISE");
-        } else if (expertise.length > 1) {
-            throw new MaterialException("MATERIAL MAY HAVE ONLY 1 EXPERTISE");
-        }
-
         const expertiseEntity = new Expertise();
         expertiseEntity.title = expertise;
         

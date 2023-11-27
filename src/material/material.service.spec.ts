@@ -30,7 +30,7 @@ describe("MaterialService", () => {
 
     it("should save correct material", () => {
         const material = new CreateMaterialDto();
-        material.expertise = [""];
+        material.expertise = "";
         
         mockRepository.save = async () => [];
 
@@ -40,7 +40,6 @@ describe("MaterialService", () => {
 
     it("should throw with no expertise", () => {
         const material = new CreateMaterialDto();
-        material.expertise = [];
 
         mockRepository.save = async () => {
             throw new Error();
@@ -50,23 +49,10 @@ describe("MaterialService", () => {
             .rejects
             .toThrow(new MaterialException("MATERIAL NEED ONE EXPERTISE"));
     });
-
-    it("should throw with 2 expertises", () => {
-        const material = new CreateMaterialDto();
-        material.expertise = ["", ""];
-
-        mockRepository.save = async () => {
-            throw new Error();
-        };
-
-        expect(service.create(material))
-            .rejects
-            .toThrow(new MaterialException("MATERIAL MAY HAVE ONLY 1 EXPERTISE"));
-    });
     
     it("should throw with non existence expertise", async () => {
         const material = new CreateMaterialDto();
-        material.expertise = [""];
+        material.expertise = "";
         
         mockRepository.save = async () => {
             throw new Error();
@@ -87,12 +73,12 @@ describe("MaterialService", () => {
             .toHaveLength(3);
     });
 
-    it("should return materials based on title", () => {
-        mockRepository.findBy = async () => {
+    it("should return materials based on user", () => {
+        mockRepository.find = async () => {
             return [new Material(), new Material()];
         };
 
-        expect(service.find("sum of square roots"))
+        expect(service.find("test"))
             .resolves
             .toHaveLength(2);
     });
@@ -103,14 +89,6 @@ describe("MaterialService", () => {
         };
 
         expect(service.findOne(1))
-            .rejects
-            .toThrow(new MaterialException("MATERIAL DOESNT EXIST"));
-    });
-    
-    it("should return null for non existence materials based on title", () => {
-        mockRepository.findBy = async () => [];
-
-        expect(service.find("sum of square roots"))
             .rejects
             .toThrow(new MaterialException("MATERIAL DOESNT EXIST"));
     });
@@ -141,7 +119,7 @@ describe("MaterialService", () => {
                 raw: {},
             };
         };
-
+        
         expect(service.update(1, material))
             .resolves
             .toBeFalsy();
