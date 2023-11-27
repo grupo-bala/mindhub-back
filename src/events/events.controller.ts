@@ -36,7 +36,7 @@ export class EventsController {
         };
     }
 
-    @Get(":id")
+    @Get("id/:id")
     async findOne(@Param("id") id: string) {
         try {
             return {
@@ -51,10 +51,10 @@ export class EventsController {
         }
     }
 
-    @Get(":title")
-    async find(@Param("title") title: string) {
+    @Get("user/:username")
+    async find(@Param("username") username: string) {
         return {
-            events: instanceToPlain(await this.eventsService.find(title)),
+            events: instanceToPlain(await this.eventsService.find(username)),
         };
     }
 

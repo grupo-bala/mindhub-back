@@ -3,7 +3,7 @@ import { CreateEventDto } from "./dto/create-event.dto";
 import { UpdateEventDto } from "./dto/update-event.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Event } from "./entities/event.entity";
-import { ILike, Repository } from "typeorm";
+import { Repository } from "typeorm";
 import { User } from "src/user/entities/user.entity";
 
 type EventError = 
@@ -49,10 +49,12 @@ export class EventsService {
         }
     }
 
-    async find(title: string) {
+    async find(username: string) {
         return await this.eventRepository.find({
             where: {
-                title: ILike(title)
+                user: {
+                    username
+                }
             }
         });
     }
