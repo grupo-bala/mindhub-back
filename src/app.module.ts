@@ -9,6 +9,7 @@ import { EventsModule } from "./events/events.module";
 import { PostModule } from "./post/post.module";
 import { BadgeModule } from "./badge/badge.module";
 import { TestModule } from "./test/test.module";
+import { AskModule } from "./ask/ask.module";
 
 @Module({
     imports: [
@@ -36,7 +37,8 @@ import { TestModule } from "./test/test.module";
         MaterialModule,
         EventsModule,
         BadgeModule,
-        TestModule
+        TestModule,
+        AskModule
     ],
     controllers: [],
     providers: [],
