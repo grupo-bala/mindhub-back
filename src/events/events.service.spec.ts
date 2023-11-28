@@ -6,6 +6,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import { CreateEventDto } from "./dto/create-event.dto";
 import { UpdateEventDto } from "./dto/update-event.dto";
+import { ScoreService } from "src/score/score.service";
 
 describe("EventsService", () => {
     let service: EventsService;
@@ -20,6 +21,13 @@ describe("EventsService", () => {
                 {
                     provide: getRepositoryToken(Event),
                     useValue: mockRepository
+                },
+                {
+                    provide: ScoreService,
+                    useValue: {
+                        getPostScore: async () => 0,
+                        getUserScoreOnPost: async () => 0,
+                    },
                 }
             ],
         }).compile();
@@ -31,6 +39,9 @@ describe("EventsService", () => {
         const event = new CreateEventDto();
 
         mockRepository.save = async () => [];
+        mockRepository.findOne = async () => {
+            return new Event();
+        };
 
         expect(() => service.create(event, "teste"))
             .not.toThrow();
@@ -58,15 +69,15 @@ describe("EventsService", () => {
 
     it("should return event by id", () => {
         const event = new Event();
-        mockRepository.findOneBy = async () => event;
+        mockRepository.findOne = async () => event;
 
         expect(service.findOne(0))
             .resolves
-            .toBe(event);
+            .toStrictEqual({ ...event, score: 0, userScore: 0 });
     });
 
     it("should throw with non existence event by id", () => {
-        mockRepository.findOneBy = async () => null;
+        mockRepository.findOne = async () => null;
 
         expect(service.findOne(1))
             .rejects
@@ -84,7 +95,7 @@ describe("EventsService", () => {
             };
         };
 
-        expect(service.update(1, event))
+        expect(service.update(1, "teste", event))
             .resolves
             .toBeTruthy();
     });
@@ -100,7 +111,7 @@ describe("EventsService", () => {
             };
         };
 
-        expect(service.update(1, event))
+        expect(service.update(1, "teste", event))
             .resolves
             .toBeFalsy();
     });
@@ -114,7 +125,7 @@ describe("EventsService", () => {
             };
         };
 
-        expect(service.remove(1))
+        expect(service.remove(1, "teste"))
             .resolves
             .toBeTruthy();
     });
@@ -128,7 +139,7 @@ describe("EventsService", () => {
             };
         };
 
-        expect(service.remove(1))
+        expect(service.remove(1, "teste"))
             .resolves
             .toBeFalsy();
     });
