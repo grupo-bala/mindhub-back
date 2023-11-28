@@ -1,7 +1,9 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { Score } from "./entities/score.entity";
 import { Repository } from "typeorm";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class ScoreService {
     constructor(
         @InjectRepository(Score)
@@ -29,5 +31,26 @@ export class ScoreService {
         });
 
         return score?.value ?? 0;
+    }
+
+    async vote(username: string, postId: number, value: number) {
+        const currentScore = await this.getUserScoreOnPost(postId, username);
+
+        if (currentScore === 0) {
+            await this.scoreRepository.save({
+                value,
+                user: { username },
+                post: { id: postId },
+            });
+        } else {
+            await this.scoreRepository.update(
+                {
+                    user: { username },
+                },
+                {
+                    value,
+                }
+            );
+        }
     }
 }
