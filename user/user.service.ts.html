@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.45% </span>
+                <span class="strong">94.2% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>126/132</span>
+                <span class='fraction'>130/138</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.6% </span>
+                <span class="strong">83.33% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>19/23</span>
+                <span class='fraction'>20/24</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">88.88% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>8/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.45% </span>
+                <span class="strong">94.2% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>126/132</span>
+                <span class='fraction'>130/138</span>
             </div>
         
             
@@ -194,7 +194,13 @@
 <a name='L129'></a><a href='#L129'>129</a>
 <a name='L130'></a><a href='#L130'>130</a>
 <a name='L131'></a><a href='#L131'>131</a>
-<a name='L132'></a><a href='#L132'>132</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -293,21 +299,10 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -324,6 +319,23 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">import { Inject, Injectable, forwardRef } from "@nestjs/common";
 import { CreateUserDto } from "./dto/create-user.dto";
@@ -398,7 +410,7 @@ export class UserService {
 &nbsp;
             return {
                 token: jwt,
-                ...instanceToPlain(user),
+                user: instanceToPlain(user),
             };
         } catch (e) {
             const error = e as Error;
@@ -421,24 +433,13 @@ export class UserService {
         });
     }
 &nbsp;
-    async findOne(username: string) {
-        const user = await this.userRepository.findOne({
-            where: {
-                username
-            },
-            relations: {
-                expertises: true,
-                badges: true,
-                currentBadge: true,
-            }
-        });
-        
-        if (user) {
-            return user;
-        } else {
-            throw new UserException("USER DOESNT EXIST");
-        }
+    async findOneByUsername(username: string) {
+        return this.findOne({ username });
     }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    async findOneByEmail(email: string) {</span>
+<span class="cstat-no" title="statement not covered" >        return this.findOne({ email });</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
 &nbsp;
     async update(username: string, updateUserDto: UpdateUserDto) {
         const parsedDto = {
@@ -456,6 +457,23 @@ export class UserService {
     async remove(username: string) {
         return (await this.userRepository.delete(username))!.affected! &gt; 0;
     }
+&nbsp;
+    private async findOne(where: Partial&lt;User&gt;) {
+        const user = await this.userRepository.findOne({
+            where,
+            relations: {
+                expertises: true,
+                badges: true,
+                currentBadge: true,
+            }
+        });
+        
+        if (user) {
+            return user;
+        } else {
+            throw new UserException("USER DOESNT EXIST");
+        }
+    }
 }</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -463,7 +481,7 @@ export class UserService {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-11-28T06:38:46.060Z
+                at 2023-11-28T17:35:37.925Z
             </div>
         <script src="../prettify.js"></script>
         <script>
