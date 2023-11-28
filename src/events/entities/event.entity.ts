@@ -1,7 +1,7 @@
 import { Post } from "src/post/entities/post.entity";
-import { Column, Entity } from "typeorm";
+import { ChildEntity, Column } from "typeorm";
 
-@Entity()
+@ChildEntity()
 export class Event extends Post {
     @Column({ type: "real" })
         longitude: number;

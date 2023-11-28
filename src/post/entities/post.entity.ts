@@ -1,8 +1,9 @@
 import { User } from "src/user/entities/user.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, TableInheritance } from "typeorm";
 
 @Entity()
-export abstract class Post {
+@TableInheritance({ column: { type: "text", name: "type" } })
+export class Post {
     @PrimaryGeneratedColumn()
         id: number;
 
