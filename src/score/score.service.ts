@@ -28,6 +28,6 @@ export class ScoreService {
             },
         });
 
-        return score?.value;
+        return score?.value ?? 0;
     }
 }

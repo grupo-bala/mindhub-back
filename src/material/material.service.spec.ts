@@ -66,7 +66,7 @@ describe("MaterialService", () => {
             return [new Material(), new Material(), new Material()];
         };
 
-        expect(service.findAll())
+        expect(service.findAll("teste"))
             .resolves
             .toHaveLength(3);
     });
@@ -76,7 +76,7 @@ describe("MaterialService", () => {
             return [new Material(), new Material()];
         };
 
-        expect(service.find("test"))
+        expect(service.find("test", "teste"))
             .resolves
             .toHaveLength(2);
     });
@@ -86,7 +86,7 @@ describe("MaterialService", () => {
             return null;
         };
 
-        expect(service.findOne(1))
+        expect(service.findOne(1, "teste"))
             .rejects
             .toThrow(new MaterialException("MATERIAL DOESNT EXIST"));
     });

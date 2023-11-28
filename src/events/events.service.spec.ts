@@ -52,7 +52,7 @@ describe("EventsService", () => {
             return [new Event(), new Event(), new Event()];
         };
 
-        expect(service.findAll())
+        expect(service.findAll("teste"))
             .resolves
             .toHaveLength(3);
     });
@@ -62,7 +62,7 @@ describe("EventsService", () => {
             return [new Event(), new Event()];
         };
 
-        expect(service.find("wtisc"))
+        expect(service.find("wtisc", "teste"))
             .resolves
             .toHaveLength(2);
     });
@@ -71,7 +71,7 @@ describe("EventsService", () => {
         const event = new Event();
         mockRepository.findOne = async () => event;
 
-        expect(service.findOne(0))
+        expect(service.findOne(0, "teste"))
             .resolves
             .toStrictEqual({ ...event, score: 0, userScore: 0 });
     });
@@ -79,7 +79,7 @@ describe("EventsService", () => {
     it("should throw with non existence event by id", () => {
         mockRepository.findOne = async () => null;
 
-        expect(service.findOne(1))
+        expect(service.findOne(1, "teste"))
             .rejects
             .toThrow(new EventException("EVENT DOESNT EXIST"));
     });

@@ -32,10 +32,10 @@ export class EventsService {
             ...createEventDto,
         });
 
-        return this.findOne(id);
+        return this.findOne(id, username);
     }
 
-    async findAll() {
+    async findAll(username: string) {
         const events = await this.eventRepository.find({
             relations: {
                 user: {
@@ -50,12 +50,12 @@ export class EventsService {
             events.map(async event => ({
                 ...event,
                 score: await this.scoreService.getPostScore(event.id),
-                userScore: 0,
+                userScore: await this.scoreService.getUserScoreOnPost(event.id, username),
             }))
         );
     }
 
-    async findOne(id: number) {
+    async findOne(id: number, username: string) {
         const event = await this.eventRepository.findOne({
             where: {
                 id
@@ -73,18 +73,18 @@ export class EventsService {
             return {
                 ...event,
                 score: await this.scoreService.getPostScore(id),
-                userScore: 0,
+                userScore: await this.scoreService.getUserScoreOnPost(id, username),
             };
         } else {
             throw new EventException("EVENT DOESNT EXIST");
         }
     }
 
-    async find(username: string) {
+    async find(usernameTarget: string, usernameViewer: string) {
         const events = await this.eventRepository.find({
             where: {
                 user: {
-                    username
+                    username: usernameTarget,
                 },
             },
             relations: {
@@ -100,7 +100,7 @@ export class EventsService {
             events.map(async event => ({
                 ...event,
                 score: await this.scoreService.getPostScore(event.id),
-                userScore: 0,
+                userScore: await this.scoreService.getUserScoreOnPost(event.id, usernameViewer),
             }))
         );
     }

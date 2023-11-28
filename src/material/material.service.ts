@@ -44,13 +44,13 @@ export class MaterialService {
                 },
             });
 
-            return this.findOne(id);
+            return this.findOne(id, username);
         } catch (error) {
             throw new ExpertiseException("EXPERTISE DOESNT EXIST");
         }
     }
 
-    async findAll() {
+    async findAll(username: string) {
         const materials = await this.materialRepository.find({
             relations: {
                 expertise: true,
@@ -66,16 +66,16 @@ export class MaterialService {
             materials.map(async material => ({
                 ...material,
                 score: await this.scoreService.getPostScore(material.id),
-                userScore: 0,
+                userScore: await this.scoreService.getUserScoreOnPost(material.id, username),
             }))
         );
     }
     
-    async find(username: string) {
+    async find(usernameTarget: string, usernameViewer: string) {
         const materials = await this.materialRepository.find({
             where: {
                 user: {
-                    username
+                    username: usernameTarget,
                 },
             },
             relations: {
@@ -92,12 +92,12 @@ export class MaterialService {
             materials.map(async material => ({
                 ...material,
                 score: await this.scoreService.getPostScore(material.id),
-                userScore: 0,
+                userScore: await this.scoreService.getUserScoreOnPost(material.id, usernameViewer),
             }))
         );
     }
     
-    async findOne(id: number) {
+    async findOne(id: number, username: string) {
         const material = await this.materialRepository.findOne({
             where: {
                 id
@@ -116,7 +116,7 @@ export class MaterialService {
             return {
                 ...material,
                 score: await this.scoreService.getPostScore(id),
-                userScore: 0,
+                userScore: await this.scoreService.getUserScoreOnPost(id, username),
             };
         } else {
             throw new MaterialException("MATERIAL DOESNT EXIST");

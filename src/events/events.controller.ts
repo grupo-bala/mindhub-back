@@ -30,14 +30,19 @@ export class EventsController {
     }
 
     @Get()
-    async findAll() {
-        return instanceToPlain(await this.eventsService.findAll());
+    @UseGuards(AuthGuard)
+    async findAll(@Req() req: Request) {
+        return instanceToPlain(await this.eventsService.findAll(req.user.sub));
     }
 
     @Get("id/:id")
-    async findOne(@Param("id") id: string) {
+    @UseGuards(AuthGuard)
+    async findOne(
+        @Param("id") id: string,
+        @Req() req: Request,
+    ) {
         try {
-            return instanceToPlain(await this.eventsService.findOne(+id));
+            return instanceToPlain(await this.eventsService.findOne(+id, req.user.sub));
         } catch (e) {
             if (e instanceof EventException && e.name === "EVENT DOESNT EXIST") {
                 throw new HttpException(e.name, HttpStatus.NOT_FOUND);
@@ -48,8 +53,12 @@ export class EventsController {
     }
 
     @Get("user/:username")
-    async find(@Param("username") username: string) {
-        return instanceToPlain(await this.eventsService.find(username));
+    @UseGuards(AuthGuard)
+    async find(
+        @Param("username") username: string,
+        @Req() req: Request,
+    ) {
+        return instanceToPlain(await this.eventsService.find(username, req.user.sub));
     }
 
     @Patch(":id")
