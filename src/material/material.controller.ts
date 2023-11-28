@@ -20,7 +20,7 @@ export class MaterialController {
         @Req() req: Request,
     ) {
         try {
-            return await this.materialService.create(createMaterialDto, req.user.sub);
+            return instanceToPlain(await this.materialService.create(createMaterialDto, req.user.sub));
         } catch (e) {
             if (e instanceof MaterialException) {
                 throw new HttpException(e.name, HttpStatus.BAD_REQUEST);
@@ -34,13 +34,13 @@ export class MaterialController {
 
     @Get()
     async findAll() {
-        return await this.materialService.findAll();
+        return instanceToPlain(await this.materialService.findAll());
     }
 
     @Get("id/:id")
     async findOne(@Param("id") id: string) {
         try {
-            return await this.materialService.findOne(+id);
+            return instanceToPlain(await this.materialService.findOne(+id));
         } catch (e) {
             if (e instanceof MaterialException && e.name === "MATERIAL DOESNT EXIST") {
                 throw new HttpException(e.name, HttpStatus.NOT_FOUND);

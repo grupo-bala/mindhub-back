@@ -29,9 +29,9 @@ export class MaterialService {
     async create(
         { title, content, expertise, postDate }: CreateMaterialDto,
         username: string,
-    ) {        
+    ): Promise<Material> {        
         try {
-            await this.materialRepository.save({
+            const { id } = await this.materialRepository.save({
                 user: { username },
                 title,
                 content,
@@ -41,13 +41,24 @@ export class MaterialService {
                     users: [],
                 },
             });
+
+            return this.findOne(id);
         } catch (error) {
             throw new ExpertiseException("EXPERTISE DOESNT EXIST");
         }
     }
 
     async findAll() {
-        return this.materialRepository.find();
+        return this.materialRepository.find({
+            relations: {
+                expertise: true,
+                user: {
+                    badges: true,
+                    currentBadge: true,
+                    expertises: true,
+                },
+            },
+        });
     }
     
     async find(username: string) {
@@ -55,13 +66,33 @@ export class MaterialService {
             where: {
                 user: {
                     username
-                }
-            }
+                },
+            },
+            relations: {
+                expertise: true,
+                user: {
+                    badges: true,
+                    currentBadge: true,
+                    expertises: true,
+                },
+            },
         });
     }
     
     async findOne(id: number) {
-        const material = await this.materialRepository.findOneBy({ id });
+        const material = await this.materialRepository.findOne({
+            where: {
+                id
+            },
+            relations: {
+                expertise: true,
+                user: {
+                    badges: true,
+                    currentBadge: true,
+                    expertises: true,
+                },
+            },
+        });
 
         if (material) {
             return material;
