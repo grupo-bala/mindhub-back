@@ -32,7 +32,7 @@ describe("ExpertiseController", () => {
 
         expect(controller.findAll())
             .resolves
-            .toStrictEqual({ expertises });
+            .toStrictEqual(expertises);
     });
 
     it("should return the correct expertise", () => {
@@ -42,7 +42,7 @@ describe("ExpertiseController", () => {
 
         expect(controller.findOne("teste"))
             .resolves
-            .toStrictEqual({ expertise });
+            .toStrictEqual(expertise);
     });
 
     it("should return not found status with non existent expertise", () => {
