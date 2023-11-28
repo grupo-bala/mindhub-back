@@ -33,8 +33,8 @@ describe("AuthService", () => {
         service = module.get<AuthService>(AuthService);
     });
 
-    it("should throw with non existing username", () => {
-        userMock.findOne = async () => {
+    it("should throw with non existing email", () => {
+        userMock.findOneByEmail = async () => {
             throw new UserException("USER DOESNT EXIST");
         };
 
@@ -48,7 +48,7 @@ describe("AuthService", () => {
         user.username = "teste";
         user.hashPassword = "$2b$10$WKJWHItbja91yJsgC/XIb.GSr7Og7jREjEsRLTbrmiru6J7YEPodi";
 
-        userMock.findOne = async () => user;
+        userMock.findOneByEmail = async () => user;
 
         expect(service.signIn("teste", "teste123"))
             .rejects
@@ -60,7 +60,7 @@ describe("AuthService", () => {
         user.username = "teste";
         user.hashPassword = "$2b$10$WKJWHItbja91yJsgC/XIb.GSr7Og7jREjEsRLTbrmiru6J7YEPodi";
 
-        userMock.findOne = async () => user;
+        userMock.findOneByEmail = async () => user;
 
         expect(service.signIn("teste", "teste"))
             .resolves

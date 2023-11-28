@@ -42,11 +42,11 @@ describe("UserController", () => {
     it("should return jwt on post", () => {
         const dto = new CreateUserDto();
 
-        mockService.create = async () => ({ token: "jwt" });
+        mockService.create = async () => ({ token: "jwt", user: {} });
         
         expect(controller.create(dto))
             .resolves
-            .toSatisfy((user: { token: string }) => user.token === "jwt");
+            .toSatisfy((data: { token: string }) => data.token === "jwt");
     });
 
     it("should return status conflict with user error", () => {
@@ -101,7 +101,7 @@ describe("UserController", () => {
         const user = new User();
         user.username = "teste";
 
-        mockService.findOne = async () => user;
+        mockService.findOneByUsername = async () => user;
 
         expect(controller.findOne("teste"))
             .resolves
@@ -111,7 +111,7 @@ describe("UserController", () => {
     });
 
     it("should return status not found with non existent user error", () => {
-        mockService.findOne = async () => {
+        mockService.findOneByUsername = async () => {
             throw new UserException("USER DOESNT EXIST");
         };
         
@@ -121,7 +121,7 @@ describe("UserController", () => {
     });
 
     it("should rethrows with unknown error", () => {
-        mockService.findOne = async () => {
+        mockService.findOneByUsername = async () => {
             throw new Error("unknown");
         };
         
