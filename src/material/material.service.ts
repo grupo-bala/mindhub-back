@@ -8,9 +8,7 @@ import { Repository } from "typeorm";
 import { Expertise } from "src/expertise/entities/expertise.entity";
 
 type MaterialError = 
-    | "MATERIAL DOESNT EXIST"
-    | "MATERIAL NEED ONE EXPERTISE"
-    | "MATERIAL MAY HAVE ONLY 1 EXPERTISE";
+    | "MATERIAL DOESNT EXIST";
 
 export class MaterialException extends Error {
     name: MaterialError;
@@ -28,16 +26,20 @@ export class MaterialService {
         private materialRepository: Repository<Material>
     ) { }
 
-    async create({ username, title, content, expertise }: CreateMaterialDto) {
-        const expertiseEntity = new Expertise();
-        expertiseEntity.title = expertise;
-        
+    async create(
+        { title, content, expertise, postDate }: CreateMaterialDto,
+        username: string,
+    ) {        
         try {
             await this.materialRepository.save({
-                username,
+                user: { username },
                 title,
                 content,
-                expertise: expertiseEntity,
+                postDate,
+                expertise: {
+                    title: expertise,
+                    users: [],
+                },
             });
         } catch (error) {
             throw new ExpertiseException("EXPERTISE DOESNT EXIST");
@@ -68,7 +70,7 @@ export class MaterialService {
         }
     }
 
-    async update(id: number, updateMaterialDto: UpdateMaterialDto) {
+    async update(id: number, username: string, updateMaterialDto: UpdateMaterialDto) {
         const expertiseEntity = new Expertise();
         expertiseEntity.title = updateMaterialDto.expertise ?? "";
 
@@ -77,10 +79,14 @@ export class MaterialService {
             expertise: expertiseEntity,
         };
 
-        return (await this.materialRepository.update(id, parsedDto))!.affected! > 0;
+        return (
+            await this.materialRepository.update({ id, user: { username } }, parsedDto)
+        )!.affected! > 0;
     }
 
-    async remove(id: number) {
-        return (await this.materialRepository.delete(id))!.affected! > 0;
+    async remove(id: number, username: string) {
+        return (
+            await this.materialRepository.delete({ id, user: { username } })
+        )!.affected! > 0;
     }
 }

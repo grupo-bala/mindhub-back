@@ -2,9 +2,6 @@ import { ApiProperty } from "@nestjs/swagger";
 
 export class CreateMaterialDto {
     @ApiProperty()
-        username: string;
-    
-    @ApiProperty()
         title: string;
 
     @ApiProperty()
@@ -12,4 +9,7 @@ export class CreateMaterialDto {
 
     @ApiProperty()
         expertise: string;
+    
+    @ApiProperty()
+        postDate: string;
 }

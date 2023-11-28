@@ -30,24 +30,11 @@ describe("MaterialService", () => {
 
     it("should save correct material", () => {
         const material = new CreateMaterialDto();
-        material.expertise = "";
         
         mockRepository.save = async () => [];
 
-        expect(() => service.create(material))
+        expect(() => service.create(material, "teste"))
             .not.toThrow();
-    });
-
-    it("should throw with no expertise", () => {
-        const material = new CreateMaterialDto();
-
-        mockRepository.save = async () => {
-            throw new Error();
-        };
-
-        expect(service.create(material))
-            .rejects
-            .toThrow(new MaterialException("MATERIAL NEED ONE EXPERTISE"));
     });
     
     it("should throw with non existence expertise", async () => {
@@ -58,7 +45,7 @@ describe("MaterialService", () => {
             throw new Error();
         };
         
-        await expect(service.create(material))
+        await expect(service.create(material, "teste"))
             .rejects
             .toThrow(new ExpertiseException("EXPERTISE DOESNT EXIST"));
     });
@@ -104,7 +91,7 @@ describe("MaterialService", () => {
             };
         };
 
-        expect(service.update(1, material))
+        expect(service.update(1, "teste", material))
             .resolves
             .toBeTruthy();
     });
@@ -120,7 +107,7 @@ describe("MaterialService", () => {
             };
         };
         
-        expect(service.update(1, material))
+        expect(service.update(1, "teste", material))
             .resolves
             .toBeFalsy();
     });
@@ -134,7 +121,7 @@ describe("MaterialService", () => {
             };
         };
 
-        expect(service.remove(1))
+        expect(service.remove(1, "teste"))
             .resolves
             .toBeTruthy();
     });
@@ -148,7 +135,7 @@ describe("MaterialService", () => {
             };
         };
 
-        expect(service.remove(1))
+        expect(service.remove(1, "teste"))
             .resolves
             .toBeFalsy();
     });

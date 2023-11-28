@@ -1,20 +1,26 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus } from "@nestjs/common";
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus, Req, UseGuards } from "@nestjs/common";
 import { MaterialException, MaterialService } from "./material.service";
 import { CreateMaterialDto } from "./dto/create-material.dto";
 import { UpdateMaterialDto } from "./dto/update-material.dto";
 import { ExpertiseException } from "src/expertise/expertise.service";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { instanceToPlain } from "class-transformer";
+import { AuthGuard, Request } from "src/auth/auth.guard";
 
 @ApiTags("material")
+@ApiBearerAuth()
 @Controller("material")
 export class MaterialController {
     constructor(private readonly materialService: MaterialService) {}
 
     @Post()
-    async create(@Body() createMaterialDto: CreateMaterialDto) {
+    @UseGuards(AuthGuard)
+    async create(
+        @Body() createMaterialDto: CreateMaterialDto,
+        @Req() req: Request,
+    ) {
         try {
-            return await this.materialService.create(createMaterialDto);
+            return await this.materialService.create(createMaterialDto, req.user.sub);
         } catch (e) {
             if (e instanceof MaterialException) {
                 throw new HttpException(e.name, HttpStatus.BAD_REQUEST);
@@ -50,12 +56,21 @@ export class MaterialController {
     }
 
     @Patch(":id")
-    async update(@Param("id") id: string, @Body() updateMaterialDto: UpdateMaterialDto) {
-        await this.materialService.update(+id, updateMaterialDto);
+    @UseGuards(AuthGuard)
+    async update(
+        @Param("id") id: string,
+        @Body() updateMaterialDto: UpdateMaterialDto,
+        @Req() req: Request,
+    ) {
+        await this.materialService.update(+id, req.user.sub, updateMaterialDto);
     }
 
     @Delete(":id")
-    async remove(@Param("id") id: string) {
-        await this.materialService.remove(+id);
+    @UseGuards(AuthGuard)
+    async remove(
+        @Param("id") id: string,
+        @Req() req: Request,
+    ) {
+        await this.materialService.remove(+id, req.user.sub);
     }
 }
