@@ -71,7 +71,7 @@ export class UserService {
 
             return {
                 token: jwt,
-                ...instanceToPlain(user),
+                user: instanceToPlain(user),
             };
         } catch (e) {
             const error = e as Error;
@@ -94,23 +94,12 @@ export class UserService {
         });
     }
 
-    async findOne(username: string) {
-        const user = await this.userRepository.findOne({
-            where: {
-                username
-            },
-            relations: {
-                expertises: true,
-                badges: true,
-                currentBadge: true,
-            }
-        });
-        
-        if (user) {
-            return user;
-        } else {
-            throw new UserException("USER DOESNT EXIST");
-        }
+    async findOneByUsername(username: string) {
+        return this.findOne({ username });
+    }
+
+    async findOneByEmail(email: string) {
+        return this.findOne({ email });
     }
 
     async update(username: string, updateUserDto: UpdateUserDto) {
@@ -128,5 +117,22 @@ export class UserService {
 
     async remove(username: string) {
         return (await this.userRepository.delete(username))!.affected! > 0;
+    }
+
+    private async findOne(where: Partial<User>) {
+        const user = await this.userRepository.findOne({
+            where,
+            relations: {
+                expertises: true,
+                badges: true,
+                currentBadge: true,
+            }
+        });
+        
+        if (user) {
+            return user;
+        } else {
+            throw new UserException("USER DOESNT EXIST");
+        }
     }
 }

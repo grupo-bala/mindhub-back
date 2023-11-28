@@ -28,7 +28,7 @@ export class AuthService {
 
     async signIn(email: string, password: string) {
         try {
-            const user = await this.userService.findOne(email);
+            const user = await this.userService.findOneByEmail(email);
             
             if (!await bcrypt.compare(password, user.hashPassword)) {
                 throw new AuthException("WRONG CREDENTIALS");

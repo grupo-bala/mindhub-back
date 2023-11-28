@@ -41,7 +41,7 @@ export class UserController {
     async findOne(@Param("username") username: string) {
         try {
             return {
-                user: instanceToPlain(await this.userService.findOne(username)),
+                user: instanceToPlain(await this.userService.findOneByUsername(username)),
             };
         } catch (e) {
             if (e instanceof UserException && e.name === "USER DOESNT EXIST") {

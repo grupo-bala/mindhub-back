@@ -128,7 +128,7 @@ describe("UserService", () => {
             return user;
         };
 
-        expect(service.findOne("teste"))
+        expect(service.findOneByUsername("teste"))
             .resolves
             .toBe(user);
     });
@@ -138,7 +138,7 @@ describe("UserService", () => {
             return null;
         };
 
-        expect(service.findOne("teste"))
+        expect(service.findOneByUsername("teste"))
             .rejects
             .toThrow(new UserException("USER DOESNT EXIST"));
     });
