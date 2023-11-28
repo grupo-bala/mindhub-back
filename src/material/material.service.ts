@@ -6,6 +6,7 @@ import { Material } from "./entities/material.entity";
 import { ExpertiseException } from "src/expertise/expertise.service";
 import { Repository } from "typeorm";
 import { Expertise } from "src/expertise/entities/expertise.entity";
+import { ScoreService } from "src/score/score.service";
 
 type MaterialError = 
     | "MATERIAL DOESNT EXIST";
@@ -23,7 +24,8 @@ export class MaterialException extends Error {
 export class MaterialService {
     constructor(
         @InjectRepository(Material)
-        private materialRepository: Repository<Material>
+        private materialRepository: Repository<Material>,
+        private scoreService: ScoreService,
     ) { }
 
     async create(
@@ -49,7 +51,7 @@ export class MaterialService {
     }
 
     async findAll() {
-        return this.materialRepository.find({
+        const materials = await this.materialRepository.find({
             relations: {
                 expertise: true,
                 user: {
@@ -57,12 +59,20 @@ export class MaterialService {
                     currentBadge: true,
                     expertises: true,
                 },
-            },
+            }
         });
+
+        return Promise.all(
+            materials.map(async material => ({
+                ...material,
+                score: await this.scoreService.getPostScore(material.id),
+                userScore: 0,
+            }))
+        );
     }
     
     async find(username: string) {
-        return await this.materialRepository.find({
+        const materials = await this.materialRepository.find({
             where: {
                 user: {
                     username
@@ -77,6 +87,14 @@ export class MaterialService {
                 },
             },
         });
+
+        return Promise.all(
+            materials.map(async material => ({
+                ...material,
+                score: await this.scoreService.getPostScore(material.id),
+                userScore: 0,
+            }))
+        );
     }
     
     async findOne(id: number) {
@@ -95,7 +113,11 @@ export class MaterialService {
         });
 
         if (material) {
-            return material;
+            return {
+                ...material,
+                score: await this.scoreService.getPostScore(id),
+                userScore: 0,
+            };
         } else {
             throw new MaterialException("MATERIAL DOESNT EXIST");
         }

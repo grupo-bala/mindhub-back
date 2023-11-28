@@ -7,6 +7,7 @@ import { describe, beforeEach, it, expect } from "vitest";
 import { CreateMaterialDto } from "./dto/create-material.dto";
 import { ExpertiseException } from "src/expertise/expertise.service";
 import { UpdateMaterialDto } from "./dto/update-material.dto";
+import { ScoreService } from "src/score/score.service";
 
 describe("MaterialService", () => {
     let service: MaterialService;
@@ -21,7 +22,14 @@ describe("MaterialService", () => {
                 {
                     provide: getRepositoryToken(Material),
                     useValue: mockRepository
-                }
+                },
+                {
+                    provide: ScoreService,
+                    useValue: {
+                        getPostScore: async () => 0,
+                        getUserScoreOnPost: async () => 0,
+                    },
+                },
             ],
         }).compile();
 
@@ -32,6 +40,9 @@ describe("MaterialService", () => {
         const material = new CreateMaterialDto();
         
         mockRepository.save = async () => [];
+        mockRepository.findOne = async () => {
+            return new Material();
+        };
 
         expect(() => service.create(material, "teste"))
             .not.toThrow();
@@ -71,7 +82,7 @@ describe("MaterialService", () => {
     });
 
     it("should return null for non existence material based on id", () => {
-        mockRepository.findOneBy = async () => {
+        mockRepository.findOne = async () => {
             return null;
         };
 
