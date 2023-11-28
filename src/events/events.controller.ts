@@ -19,7 +19,7 @@ export class EventsController {
         @Req() req: Request,
     ) {
         try {
-            await this.eventsService.create(createEventDto, req.user.sub);
+            return instanceToPlain(await this.eventsService.create(createEventDto, req.user.sub));
         } catch (e) {
             if (e instanceof EventException) {
                 throw new HttpException(e.name, HttpStatus.BAD_REQUEST);
@@ -57,13 +57,17 @@ export class EventsController {
     update(
         @Param("id") id: string,
         @Body() updateEventDto: UpdateEventDto,
+        @Req() req: Request,
     ) {
-        return this.eventsService.update(+id, updateEventDto);
+        return this.eventsService.update(+id, req.user.sub, updateEventDto);
     }
 
     @Delete(":id")
     @UseGuards(AuthGuard)
-    remove(@Param("id") id: string) {
-        return this.eventsService.remove(+id);
+    remove(
+        @Param("id") id: string,
+        @Req() req: Request,    
+    ) {
+        return this.eventsService.remove(+id, req.user.sub);
     }
 }
