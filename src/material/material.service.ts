@@ -7,6 +7,7 @@ import { ExpertiseException } from "src/expertise/expertise.service";
 import { Repository } from "typeorm";
 import { Expertise } from "src/expertise/entities/expertise.entity";
 import { ScoreService } from "src/score/score.service";
+import { User } from "src/user/entities/user.entity";
 
 type MaterialError = 
     | "MATERIAL DOESNT EXIST";
@@ -87,6 +88,34 @@ export class MaterialService {
         });
 
         return Promise.all(
+            materials.map(async material => ({
+                ...material,
+                score: await this.scoreService.getPostScore(material.id),
+                userScore: await this.scoreService.getUserScoreOnPost(material.id, username) ?? 0
+            }))
+        );
+    }
+
+    async getForYou(username: string) {
+        const materials = await this.materialRepository.createQueryBuilder("material")
+            .select()
+            .leftJoinAndSelect("material.expertise", "expertise")
+            .leftJoinAndSelect("material.user", "user")
+            .leftJoinAndSelect("user.currentBadge", "badge")
+            .leftJoinAndSelect("user.badges", "badges")
+            .leftJoinAndSelect("user.expertises", "expertises")
+            .where(qb => {
+                const subquery = qb.subQuery()
+                    .select()
+                    .from(User, "user")
+                    .leftJoinAndSelect("user.expertises", "expertises")
+                    .where("user.username = :username", { username })
+                    .getQuery();
+                return "material.expertise in " + subquery;
+            })
+            .getMany();
+        
+        return await Promise.all(
             materials.map(async material => ({
                 ...material,
                 score: await this.scoreService.getPostScore(material.id),
