@@ -71,6 +71,30 @@ export class MaterialService {
         );
     }
     
+    async getRecents(username: string) {
+        const materials = await this.materialRepository.find({
+            relations: {
+                expertise: true,
+                user: {
+                    badges: true,
+                    currentBadge: true,
+                    expertises: true,
+                },
+            },
+            order: {
+                postDate: "DESC"
+            }
+        });
+
+        return Promise.all(
+            materials.map(async material => ({
+                ...material,
+                score: await this.scoreService.getPostScore(material.id),
+                userScore: await this.scoreService.getUserScoreOnPost(material.id, username) ?? 0
+            }))
+        );
+    }
+
     async find(usernameTarget: string, usernameViewer: string) {
         const materials = await this.materialRepository.find({
             where: {
