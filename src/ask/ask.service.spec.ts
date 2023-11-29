@@ -6,6 +6,8 @@ import { Ask } from "./entities/ask.entity";
 import { ScoreService } from "src/score/score.service";
 import { describe, beforeEach, it, expect } from "vitest";
 import { CreateMaterialDto } from "src/material/dto/create-material.dto";
+import { CreateAskDto } from "./dto/create-ask.dto";
+import { ExpertiseException } from "src/expertise/expertise.service";
 
 describe("AskService", () => {
     let service: AskService;
@@ -44,5 +46,18 @@ describe("AskService", () => {
 
         expect(() => service.create(ask, "teste"))
             .not.toThrow();
+    });
+
+    it("should throw with no existence expertise", async () => {
+        const ask = new CreateAskDto();
+        ask.expertise = "";
+
+        mockRepository.save = async () => {
+            throw new Error();
+        };
+
+        await expect(service.create(ask, "teste"))
+            .rejects
+            .toThrow(new ExpertiseException("EXPERTISE DOESNT EXIST"));
     });
 });
