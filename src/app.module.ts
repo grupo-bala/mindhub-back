@@ -11,6 +11,8 @@ import { BadgeModule } from "./badge/badge.module";
 import { TestModule } from "./test/test.module";
 import { AskModule } from "./ask/ask.module";
 import { StaticModule } from "./static/static.module";
+import { CommentModule } from "./comment/comment.module";
+import { ScoreModule } from "./score/score.module";
 
 @Module({
     imports: [
@@ -40,7 +42,9 @@ import { StaticModule } from "./static/static.module";
         BadgeModule,
         AskModule,
         StaticModule,
-        TestModule
+        TestModule,
+        CommentModule,
+        ScoreModule,
     ],
     controllers: [],
     providers: [],
