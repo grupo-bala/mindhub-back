@@ -137,4 +137,18 @@ describe("AskService", () => {
             .resolves
             .toBeTruthy();
     });
+
+    it("should return false when deleting no material", () => {
+        mockRepository.delete = async () => {
+            return {
+                affected: 0,
+                generatedMaps: [],
+                raw: {},
+            };
+        };
+
+        expect(service.remove(1, "teste"))
+            .resolves
+            .toBeFalsy();
+    });
 });
