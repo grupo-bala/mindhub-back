@@ -66,7 +66,31 @@ export class AskService {
             asks.map(async ask => ({
                 ...ask,
                 score: await this.scoreService.getPostScore(ask.id),
-                userScore: await this.scoreService.getUserScoreOnPost(ask.id, username)
+                userScore: await this.scoreService.getUserScoreOnPost(ask.id, username) ?? 0
+            }))
+        );
+    }
+
+    async getRecents(username: string) {
+        const asks = await this.askRespository.find({
+            relations: {
+                expertise: true,
+                user: {
+                    badges: true,
+                    currentBadge: true,
+                    expertises: true,
+                },
+            },
+            order: {
+                postDate: "DESC"
+            }
+        });
+
+        return Promise.all(
+            asks.map(async ask => ({
+                ...ask,
+                score: await this.scoreService.getPostScore(ask.id),
+                userScore: await this.scoreService.getUserScoreOnPost(ask.id, username) ?? 0
             }))
         );
     }
@@ -92,7 +116,7 @@ export class AskService {
             asks.map(async ask => ({
                 ...ask,
                 score: await this.scoreService.getPostScore(ask.id),
-                userScore: await this.scoreService.getUserScoreOnPost(ask.id, usernameViewer)
+                userScore: await this.scoreService.getUserScoreOnPost(ask.id, usernameViewer) ?? 0
             }))
         );
     }
@@ -116,7 +140,7 @@ export class AskService {
             return {
                 ...ask,
                 score: await this.scoreService.getPostScore(id),
-                userScore: await this.scoreService.getUserScoreOnPost(id, username)
+                userScore: await this.scoreService.getUserScoreOnPost(id, username) ?? 0
             };
         } else {
             throw new AskException("ASK DOESNT EXIST");
