@@ -29,7 +29,7 @@ export class AskService {
     ) { }
 
     async create(
-        { title, content, expertise, postDate} : CreateAskDto,
+        { title, content, expertise, postDate, hasImage} : CreateAskDto,
         username: string
     ): Promise<Ask> {
         try {
@@ -37,6 +37,7 @@ export class AskService {
                 user: { username },
                 title,
                 content,
+                hasImage,
                 postDate,
                 expertise: {
                     title: expertise,

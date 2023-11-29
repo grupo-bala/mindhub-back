@@ -14,5 +14,8 @@ export class CreateAskDto {
         image?: Buffer;
 
     @ApiProperty()
+        hasImage: boolean;
+
+    @ApiProperty()
         postDate: string;
 }
