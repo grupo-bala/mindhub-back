@@ -61,6 +61,12 @@ export class EventsController {
         return instanceToPlain(await this.eventsService.find(username, req.user.sub));
     }
 
+    @Get("recents")
+    @UseGuards(AuthGuard)
+    async getRecents(@Req() req: Request) {
+        return instanceToPlain(await this.eventsService.getRecents(req.user.sub));
+    }
+
     @Patch(":id")
     @UseGuards(AuthGuard)
     update(
