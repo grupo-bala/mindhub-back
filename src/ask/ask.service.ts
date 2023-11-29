@@ -3,7 +3,7 @@ import { CreateAskDto } from "./dto/create-ask.dto";
 import { UpdateAskDto } from "./dto/update-ask.dto";
 import { Ask } from "./entities/ask.entity";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { Like, Repository } from "typeorm";
 import { ScoreService } from "src/score/score.service";
 import { ExpertiseException } from "src/expertise/expertise.service";
 import { Expertise } from "src/expertise/entities/expertise.entity";
@@ -71,6 +71,30 @@ export class AskService {
         );
     }
 
+    async find(username: string, pattern: string) {
+        const asks = await this.askRespository.find({
+            relations: {
+                expertise: true,
+                user: {
+                    badges: true,
+                    currentBadge: true,
+                    expertises: true,
+                }
+            },
+            where: {
+                title: Like(pattern)
+            }
+        });
+
+        return Promise.all(
+            asks.map(async ask => ({
+                ...ask,
+                score: await this.scoreService.getPostScore(ask.id),
+                userScore: await this.scoreService.getUserScoreOnPost(ask.id, username) ?? 0
+            }))
+        );
+    }
+
     async getRecents(username: string) {
         const asks = await this.askRespository.find({
             relations: {
@@ -95,7 +119,7 @@ export class AskService {
         );
     }
 
-    async find(usernameTarget: string, usernameViewer: string) {
+    async findByUser(usernameTarget: string, usernameViewer: string) {
         const asks = await this.askRespository.find({
             where: {
                 user: {
