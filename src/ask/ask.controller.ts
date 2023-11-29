@@ -55,6 +55,12 @@ export class AskController {
         }
     }
 
+    @Get("recents")
+    @UseGuards(AuthGuard)
+    async getRecents(@Req() req: Request) {
+        return instanceToPlain(await this.askService.getRecents(req.user.sub));
+    }
+
     @Patch(":id")
     @UseGuards(AuthGuard)
     async update(
