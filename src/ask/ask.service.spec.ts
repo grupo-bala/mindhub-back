@@ -1,5 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { AskService } from "./ask.service";
+import { AskException, AskService } from "./ask.service";
 import { Repository } from "typeorm";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import { Ask } from "./entities/ask.entity";
@@ -80,4 +80,14 @@ describe("AskService", () => {
             .resolves
             .toHaveLength(3);
     });
+
+    it("should return null for non existence ask based on id", () => {
+        mockRepository.findOne = async () => {
+            return null;
+        };
+
+        expect(service.findOne(1, "teste"))
+            .rejects
+            .toThrow(new AskException("ASK DOESNT EXIST"));
+    })
 });
