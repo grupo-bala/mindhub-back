@@ -60,4 +60,14 @@ describe("AskService", () => {
             .rejects
             .toThrow(new ExpertiseException("EXPERTISE DOESNT EXIST"));
     });
+
+    it("should return asks based on user", () => {
+        mockRepository.find = async () => {
+            return [new Ask(), new Ask()];
+        };
+
+        expect(service.find("test", "teste"))
+            .resolves
+            .toHaveLength(2);
+    });
 });
