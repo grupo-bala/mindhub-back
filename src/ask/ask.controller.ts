@@ -32,10 +32,22 @@ export class AskController {
         }
     }
 
-    @Get()
+    @Get(":pattern")
     @UseGuards(AuthGuard)
-    async findAll(@Req() req: Request) {
-        return instanceToPlain(await this.askService.findAll(req.user.sub));
+    async find(
+        @Param("pattern") pattern: string,
+        @Req() req: Request
+    ) {
+        return instanceToPlain(await this.askService.find(pattern, req.user.sub));
+    }
+
+    @Get("user/:username")
+    @UseGuards(AuthGuard)
+    async findByUser(
+        @Param("username") username: string,
+        @Req() req: Request,
+    ) {
+        return instanceToPlain(await this.askService.findByUser(username, req.user.sub));
     }
 
     @Get("id/:id")
@@ -54,6 +66,13 @@ export class AskController {
             throw error;
         }
     }
+
+    @Get()
+    @UseGuards(AuthGuard)
+    async findAll(@Req() req: Request) {
+        return instanceToPlain(await this.askService.findAll(req.user.sub));
+    }
+
 
     @Get("recents")
     @UseGuards(AuthGuard)
