@@ -30,13 +30,13 @@ export class ScoreService {
             },
         });
 
-        return score?.value ?? 0;
+        return score?.value;
     }
 
     async vote(username: string, postId: number, value: number) {
         const currentScore = await this.getUserScoreOnPost(postId, username);
 
-        if (currentScore === 0) {
+        if (currentScore === undefined) {
             await this.scoreRepository.save({
                 value,
                 user: { username },
@@ -44,12 +44,8 @@ export class ScoreService {
             });
         } else {
             await this.scoreRepository.update(
-                {
-                    user: { username },
-                },
-                {
-                    value,
-                }
+                { user: { username } },
+                { value }
             );
         }
     }

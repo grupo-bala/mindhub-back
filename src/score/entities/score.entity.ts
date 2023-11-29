@@ -1,6 +1,6 @@
 import { Post } from "src/post/entities/post.entity";
 import { User } from "src/user/entities/user.entity";
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Score {
@@ -10,11 +10,9 @@ export class Score {
     @Column({ type: "int" })
         value: number;
     
-    @OneToOne(() => User)
-    @JoinColumn()
+    @ManyToOne(() => User, user => user.username)
         user: User;
     
-    @OneToOne(() => Post)
-    @JoinColumn()
+    @ManyToOne(() => Post, post => post.id)
         post: Post;
 }

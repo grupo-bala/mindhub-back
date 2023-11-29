@@ -66,7 +66,7 @@ export class MaterialService {
             materials.map(async material => ({
                 ...material,
                 score: await this.scoreService.getPostScore(material.id),
-                userScore: await this.scoreService.getUserScoreOnPost(material.id, username),
+                userScore: await this.scoreService.getUserScoreOnPost(material.id, username) ?? 0,
             }))
         );
     }
@@ -92,7 +92,7 @@ export class MaterialService {
             materials.map(async material => ({
                 ...material,
                 score: await this.scoreService.getPostScore(material.id),
-                userScore: await this.scoreService.getUserScoreOnPost(material.id, usernameViewer),
+                userScore: await this.scoreService.getUserScoreOnPost(material.id, usernameViewer) ?? 0,
             }))
         );
     }
@@ -116,7 +116,7 @@ export class MaterialService {
             return {
                 ...material,
                 score: await this.scoreService.getPostScore(id),
-                userScore: await this.scoreService.getUserScoreOnPost(id, username),
+                userScore: await this.scoreService.getUserScoreOnPost(id, username) ?? 0,
             };
         } else {
             throw new MaterialException("MATERIAL DOESNT EXIST");
