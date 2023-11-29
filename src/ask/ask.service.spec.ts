@@ -107,4 +107,20 @@ describe("AskService", () => {
             .resolves
             .toBeTruthy();
     });
+
+    it("should return false when updating no ask", () => {
+        const ask = new UpdateAskDto();
+
+        mockRepository.update = async () => {
+            return {
+                affected: 0,
+                generatedMaps: [],
+                raw: {},
+            };
+        };
+
+        expect(service.update(1, "teste", ask))
+            .resolves
+            .toBeFalsy();
+    });
 });
