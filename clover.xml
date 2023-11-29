@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1701281359861" clover="3.2.0">
-  <project timestamp="1701281359861" name="All files">
-    <metrics statements="1107" coveredstatements="984" conditionals="127" coveredconditionals="95" methods="57" coveredmethods="51" elements="1291" coveredelements="1130" complexity="0" loc="1107" ncloc="1107" packages="17" files="24" classes="24"/>
+<coverage generated="1701296051172" clover="3.2.0">
+  <project timestamp="1701296051172" name="All files">
+    <metrics statements="1132" coveredstatements="1009" conditionals="129" coveredconditionals="95" methods="59" coveredmethods="51" elements="1320" coveredelements="1155" complexity="0" loc="1132" ncloc="1132" packages="18" files="25" classes="25"/>
     <package name="ask">
       <metrics statements="194" coveredstatements="148" conditionals="17" coveredconditionals="12" methods="10" coveredmethods="8"/>
       <file name="ask.service.ts" path="/home/runner/work/mindhub-back/mindhub-back/src/ask/ask.service.ts">
@@ -915,10 +915,10 @@
         <line num="9" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="score.entities">
-      <metrics statements="18" coveredstatements="18" conditionals="2" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="score.entity.ts" path="/home/runner/work/mindhub-back/mindhub-back/src/score/entities/score.entity.ts">
-        <metrics statements="18" coveredstatements="18" conditionals="2" coveredconditionals="0" methods="0" coveredmethods="0"/>
+    <package name="post.entities">
+      <metrics statements="21" coveredstatements="21" conditionals="1" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="post.entity.ts" path="/home/runner/work/mindhub-back/mindhub-back/src/post/entities/post.entity.ts">
+        <metrics statements="21" coveredstatements="21" conditionals="1" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -932,11 +932,42 @@
         <line num="11" count="1" type="stmt"/>
         <line num="12" count="1" type="stmt"/>
         <line num="13" count="1" type="stmt"/>
-        <line num="14" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="14" count="1" type="stmt"/>
         <line num="15" count="1" type="stmt"/>
         <line num="16" count="1" type="stmt"/>
-        <line num="17" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="17" count="1" type="stmt"/>
         <line num="18" count="1" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="20" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="21" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="score.entities">
+      <metrics statements="22" coveredstatements="22" conditionals="3" coveredconditionals="0" methods="2" coveredmethods="0"/>
+      <file name="score.entity.ts" path="/home/runner/work/mindhub-back/mindhub-back/src/score/entities/score.entity.ts">
+        <metrics statements="22" coveredstatements="22" conditionals="3" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="18" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="22" count="1" type="stmt"/>
       </file>
     </package>
     <package name="user">
