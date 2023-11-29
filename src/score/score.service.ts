@@ -18,10 +18,33 @@ export class ScoreService {
         }) ?? 0;
     }
 
+    async getCommentScore(id: number): Promise<number> {
+        return await this.scoreRepository.sum("value", {
+            comment: {
+                id,
+            }
+        }) ?? 0;
+    }
+
     async getUserScoreOnPost(id: number, username: string) {
         const score = await this.scoreRepository.findOne({
             where: {
                 post: {
+                    id,
+                },
+                user: {
+                    username,
+                },
+            },
+        });
+
+        return score?.value;
+    }
+
+    async getUserScoreOnComment(id: number, username: string) {
+        const score = await this.scoreRepository.findOne({
+            where: {
+                comment: {
                     id,
                 },
                 user: {
@@ -41,6 +64,23 @@ export class ScoreService {
                 value,
                 user: { username },
                 post: { id: postId },
+            });
+        } else {
+            await this.scoreRepository.update(
+                { user: { username } },
+                { value }
+            );
+        }
+    }
+
+    async voteComment(username: string, commentId: number, value: number) {
+        const currentScore = await this.getUserScoreOnComment(commentId, username);
+
+        if (currentScore === undefined) {
+            await this.scoreRepository.save({
+                value,
+                user: { username },
+                comment: { id: commentId },
             });
         } else {
             await this.scoreRepository.update(
