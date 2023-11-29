@@ -80,6 +80,29 @@ export class EventsService {
         }
     }
 
+    async getRecents(username: string) {
+        const events = await this.eventRepository.find({
+            relations: {
+                user: {
+                    badges: true,
+                    currentBadge: true,
+                    expertises: true,
+                },
+            },
+            order: {
+                postDate: "DESC"
+            }
+        });
+
+        return Promise.all(
+            events.map(async event => ({
+                ...event,
+                score: await this.scoreService.getPostScore(event.id),
+                userScore: await this.scoreService.getUserScoreOnPost(event.id, username) ?? 0
+            }))
+        );
+    }
+
     async find(usernameTarget: string, usernameViewer: string) {
         const events = await this.eventRepository.find({
             where: {
