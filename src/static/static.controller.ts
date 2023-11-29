@@ -1,4 +1,5 @@
-import * as fs from "fs";
+import * as fsSync from "fs";
+import * as fs from "fs/promises";
 import * as path from "path";
 import { Controller, Get, Param, Post, Req, Res, UseGuards } from "@nestjs/common";
 import { Request, Response } from "express";
@@ -9,8 +10,8 @@ export class StaticController {
     constructor() {
         const staticPath = path.join(process.cwd(), "static");
 
-        if (!fs.existsSync(staticPath)) {
-            fs.mkdirSync(staticPath);
+        if (!fsSync.existsSync(staticPath)) {
+            fsSync.mkdirSync(staticPath);
         }
 
         const types = ["material", "event", "ask", "user"];
@@ -18,8 +19,8 @@ export class StaticController {
         for (const fileType of types) {
             const typePath = path.join(staticPath, fileType);
 
-            if (!fs.existsSync(typePath)) {
-                fs.mkdirSync(typePath);
+            if (!fsSync.existsSync(typePath)) {
+                fsSync.mkdirSync(typePath);
             }
         }
     }
@@ -31,7 +32,7 @@ export class StaticController {
         @Param("id") id: number,
         @Res() res: Response,
     ) {
-        const file = fs.createReadStream(
+        const file = fsSync.createReadStream(
             path.join(process.cwd(), "static", fileType, id.toString())
         );
 
@@ -45,10 +46,9 @@ export class StaticController {
         @Param("id") id: number,
         @Req() req: Request,
     ) {
-        const file = fs.createWriteStream(
-            path.join(process.cwd(), "static", fileType, id.toString())
+        await fs.writeFile(
+            path.join(process.cwd(), "static", fileType, id.toString()),
+            req.body,
         );
-
-        file.write(req.body);
     }
 }
