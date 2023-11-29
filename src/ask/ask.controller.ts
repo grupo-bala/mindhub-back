@@ -1,34 +1,76 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { AskService } from './ask.service';
-import { CreateAskDto } from './dto/create-ask.dto';
-import { UpdateAskDto } from './dto/update-ask.dto';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, HttpException, HttpStatus } from "@nestjs/common";
+import { AskException, AskService } from "./ask.service";
+import { CreateAskDto } from "./dto/create-ask.dto";
+import { UpdateAskDto } from "./dto/update-ask.dto";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { AuthGuard, Request } from "src/auth/auth.guard";
+import { instanceToPlain } from "class-transformer";
+import { ExpertiseException } from "src/expertise/expertise.service";
 
-@Controller('ask')
+@ApiTags("ask")
+@ApiBearerAuth()
+@Controller("ask")
 export class AskController {
-  constructor(private readonly askService: AskService) {}
+    constructor(private readonly askService: AskService) {}
 
-  @Post()
-  create(@Body() createAskDto: CreateAskDto) {
-    return this.askService.create(createAskDto);
-  }
+    @Post()
+    @UseGuards(AuthGuard)
+    async create(
+        @Body() createAskDto: CreateAskDto,
+        @Req() req: Request,
+    ) {
+        try {
+            return instanceToPlain(await this.askService.create(createAskDto, req.user.sub));
+        } catch (error) {
+            if (error instanceof AskException) {
+                throw new HttpException(error.name, HttpStatus.BAD_REQUEST);
+            } else if (error instanceof ExpertiseException) {
+                throw new HttpException(error.name, HttpStatus.NOT_FOUND);
+            }
 
-  @Get()
-  findAll() {
-    return this.askService.findAll();
-  }
+            throw error;
+        }
+    }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.askService.findOne(+id);
-  }
+    @Get()
+    @UseGuards(AuthGuard)
+    async findAll(@Req() req: Request) {
+        return instanceToPlain(await this.askService.findAll(req.user.sub));
+    }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAskDto: UpdateAskDto) {
-    return this.askService.update(+id, updateAskDto);
-  }
+    @Get("id/:id")
+    @UseGuards(AuthGuard)
+    async findOne(
+        @Param("id") id: string,
+        @Req() req: Request,
+    ) {
+        try {
+            return instanceToPlain(await this.askService.findOne(+id, req.user.sub));
+        } catch (error) {
+            if (error instanceof AskException && error.name === "ASK DOESNT EXIST") {
+                throw new HttpException(error.name, HttpStatus.NOT_FOUND);
+            }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.askService.remove(+id);
-  }
+            throw error;
+        }
+    }
+
+    @Patch(":id")
+    @UseGuards(AuthGuard)
+    async update(
+        @Param("id") id: string, 
+        @Body() updateAskDto: UpdateAskDto,
+        @Req() req: Request,
+    ) {
+        await this.askService.update(+id, req.user.sub, updateAskDto);
+    }
+
+    @Delete(":id")
+    @UseGuards(AuthGuard)
+    async remove(
+        @Param("id") id: string,
+        @Req() req: Request,
+    ) {
+        await this.askService.remove(+id, req.user.sub);
+    }
 }
