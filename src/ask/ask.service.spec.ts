@@ -70,4 +70,14 @@ describe("AskService", () => {
             .resolves
             .toHaveLength(2);
     });
+
+    it("should return all asks", () => {
+        mockRepository.find = async () => {
+            return [new Ask(), new Ask(), new Ask()];
+        };
+
+        expect(service.findAll("teste"))
+            .resolves
+            .toHaveLength(3);
+    });
 });
