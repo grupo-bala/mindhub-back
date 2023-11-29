@@ -8,6 +8,7 @@ import { describe, beforeEach, it, expect } from "vitest";
 import { CreateMaterialDto } from "src/material/dto/create-material.dto";
 import { CreateAskDto } from "./dto/create-ask.dto";
 import { ExpertiseException } from "src/expertise/expertise.service";
+import { UpdateAskDto } from "./dto/update-ask.dto";
 
 describe("AskService", () => {
     let service: AskService;
@@ -89,5 +90,21 @@ describe("AskService", () => {
         expect(service.findOne(1, "teste"))
             .rejects
             .toThrow(new AskException("ASK DOESNT EXIST"));
-    })
+    });
+
+    it("should return true when updating 1 ask", () => {
+        const ask = new UpdateAskDto();
+
+        mockRepository.update = async () => {
+            return {
+                affected: 1,
+                generatedMaps: [],
+                raw: {},
+            };
+        };
+
+        expect(service.update(1, "teste", ask))
+            .resolves
+            .toBeTruthy();
+    });
 });
