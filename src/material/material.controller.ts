@@ -64,6 +64,12 @@ export class MaterialController {
         return instanceToPlain(await this.materialService.find(username, req.user.sub));
     }
 
+    @Get("recents")
+    @UseGuards(AuthGuard)
+    async getRecents(@Req() req: Request) {
+        return instanceToPlain(await this.materialService.getRecents(req.user.sub));
+    }
+
     @Patch(":id")
     @UseGuards(AuthGuard)
     async update(
