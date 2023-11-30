@@ -7,7 +7,7 @@ import "reflect-metadata";
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
 
-    app.use(bodyParser.raw({ limit: "5mb", type: "application/octet-stream" }));
+    app.use(bodyParser.raw({ limit: "10mb", type: "application/octet-stream" }));
 
     const config = new DocumentBuilder()
         .setTitle("Mindhub")
