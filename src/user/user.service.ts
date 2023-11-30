@@ -142,7 +142,7 @@ export class UserService {
 
         await this.userRepository.update(
             { username },
-            { xp: user.xp + quantity },
+            { xp: Math.max(0, user.xp + quantity) },
         );
     }
 
