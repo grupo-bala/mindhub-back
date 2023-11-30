@@ -150,4 +150,30 @@ describe("MaterialService", () => {
             .resolves
             .toBeFalsy();
     });
+
+    it("should return materials ordered by user expertises and most voted"), () => {
+        mockRepository.find = async () => {
+            return [new Material(), new Material()];
+        };
+
+        expect(service.getForYou("teste"))
+            .resolves
+            .toHaveLength(2);
+    };
+
+    it("should return materials ordered by most recent date post"), () => {
+        mockRepository.find = async () => {
+            const material1 = new Material();
+            const material2 = new Material();
+
+            material1.postDate = "12";
+            material2.postDate = "10";
+
+            return [material2, material1];
+        };
+
+        expect(service.getRecents("teste"))
+            .resolves
+            .toHaveLength(2);
+    };
 });
