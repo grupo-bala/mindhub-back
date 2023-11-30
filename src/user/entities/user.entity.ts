@@ -32,7 +32,7 @@ export class User {
     @OneToMany(() => Post, post => post.user)
         post: Post[];
     
-    @ManyToMany(() => Expertise, expertise => expertise.users)
+    @ManyToMany(() => Expertise, expertise => expertise.users, { onUpdate: "CASCADE" })
     @JoinTable()
         expertises: Expertise[];
 }

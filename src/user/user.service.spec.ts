@@ -146,33 +146,34 @@ describe("UserService", () => {
     it("should return true when updating 1 user", () => {
         const user = new UpdateUserDto();
 
-        mockRepository.update = async () => {
-            return {
-                affected: 1,
-                generatedMaps: [],
-                raw: {},
-            };
+        user.password = "";
+
+        mockRepository.countBy = async () => {
+            return 1;
+        };
+
+        mockRepository.findOneBy = async () => {
+            return new User();
+        };
+
+        mockRepository.save = async () => {
+            return [];
         };
 
         expect(service.update("teste", user))
             .resolves
-            .toBeTruthy();
+            .toBe(true);
     });
 
-    it("should return false when updating no user", () => {
+    it("should throws when updating no user", () => {
         const user = new UpdateUserDto();
 
-        mockRepository.update = async () => {
-            return {
-                affected: 0,
-                generatedMaps: [],
-                raw: {},
-            };
+        mockRepository.countBy = async () => {
+            return 0;
         };
 
         expect(service.update("teste", user))
-            .resolves
-            .toBeFalsy();
+            .rejects.toThrow(new UserException("USER DOESNT EXIST"));
     });
 
     it("should return true when deleting 1 user", () => {

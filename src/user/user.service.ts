@@ -9,6 +9,7 @@ import { Expertise } from "src/expertise/entities/expertise.entity";
 import { ExpertiseException } from "src/expertise/expertise.service";
 import { instanceToPlain } from "class-transformer";
 import { Badge } from "src/badge/entities/badge.entity";
+import * as bcrypt from "bcrypt";
 
 type UserError =
     | "DUPLICATE EMAIL"
@@ -103,8 +104,22 @@ export class UserService {
     }
 
     async update(username: string, updateUserDto: UpdateUserDto) {
+        if (await this.userRepository.countBy({ username }) === 0) {
+            throw new UserException("USER DOESNT EXIST");
+        }
+
+        const user = (await this
+            .userRepository
+            .findOneBy({ username }))!;
+
         const parsedDto = {
-            ...updateUserDto,
+            username: username,
+            name: updateUserDto.name,
+            email: updateUserDto.email,
+            hashPassword: user.hashPassword,
+            xp: user.xp,
+            currentBadge: user.currentBadge,
+            
             expertises: updateUserDto.expertises?.map(e => {
                 const expertise = new Expertise();
                 expertise.title = e;
@@ -112,7 +127,15 @@ export class UserService {
             }),
         };
 
-        return (await this.userRepository.update(username, parsedDto))!.affected! > 0;
+        if (updateUserDto.password !== "") {
+            const hash = await bcrypt.hash(updateUserDto.password!, 10);
+
+            parsedDto["hashPassword"] = hash;
+        }
+
+        await this.userRepository.save(parsedDto);
+
+        return true;
     }
 
     async remove(username: string) {
