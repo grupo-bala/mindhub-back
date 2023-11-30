@@ -38,7 +38,7 @@ export class AskController {
         @Param("pattern") pattern: string,
         @Req() req: Request
     ) {
-        return instanceToPlain(await this.askService.find(pattern, req.user.sub));
+        return instanceToPlain(await this.askService.find(req.user.sub, pattern));
     }
 
     @Get("user/:username")

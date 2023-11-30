@@ -3,7 +3,7 @@ import { CreateAskDto } from "./dto/create-ask.dto";
 import { UpdateAskDto } from "./dto/update-ask.dto";
 import { Ask } from "./entities/ask.entity";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Like, Repository } from "typeorm";
+import { ILike, Repository } from "typeorm";
 import { ScoreService } from "src/score/score.service";
 import { ExpertiseException } from "src/expertise/expertise.service";
 import { Expertise } from "src/expertise/entities/expertise.entity";
@@ -83,7 +83,7 @@ export class AskService {
                 }
             },
             where: {
-                title: Like(pattern)
+                title: ILike(`%${pattern}%`)
             }
         });
 
