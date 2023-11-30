@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { Expertise } from "src/expertise/entities/expertise.entity";
 
 export class UpdateUserDto {
     @ApiProperty()
@@ -13,5 +14,5 @@ export class UpdateUserDto {
     @ApiProperty({
         type: [String],
     })
-        expertises: string[];
+        expertises: Expertise[];
 }

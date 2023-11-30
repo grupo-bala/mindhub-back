@@ -119,12 +119,7 @@ export class UserService {
             hashPassword: user.hashPassword,
             xp: user.xp,
             currentBadge: user.currentBadge,
-            
-            expertises: updateUserDto.expertises?.map(e => {
-                const expertise = new Expertise();
-                expertise.title = e;
-                return expertise;
-            }),
+            expertises: updateUserDto.expertises
         };
 
         if (updateUserDto.password !== "") {
