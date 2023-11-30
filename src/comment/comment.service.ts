@@ -191,7 +191,6 @@ export class CommentService {
     ) {
         const bestAnswerComment = await this.commentRepository.findOne({
             where: {
-                id,
                 user: {
                     username,
                 },
@@ -224,6 +223,9 @@ export class CommentService {
             isBestAnswer: false,
         });
 
+        if (id === bestAnswerComment.id) {
+            return true; 
+        }
 
         return (
             await this.commentRepository.update({
