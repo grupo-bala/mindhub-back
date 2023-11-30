@@ -13,6 +13,7 @@ import { AskModule } from "./ask/ask.module";
 import { StaticModule } from "./assets/assets.module";
 import { CommentModule } from "./comment/comment.module";
 import { ScoreModule } from "./score/score.module";
+import { RankingModule } from "./ranking/ranking.module";
 
 @Module({
     imports: [
@@ -45,6 +46,7 @@ import { ScoreModule } from "./score/score.module";
         TestModule,
         CommentModule,
         ScoreModule,
+        RankingModule,
     ],
     controllers: [],
     providers: [],

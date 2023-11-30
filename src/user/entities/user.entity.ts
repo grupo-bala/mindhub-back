@@ -16,6 +16,10 @@ export class User {
         email: string;
 
     @Exclude()
+    @Column({ nullable: false, generated: "increment" })
+        id: number;
+
+    @Exclude()
     @Column({ nullable: false })
         hashPassword: string;
 
