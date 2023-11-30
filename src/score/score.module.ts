@@ -11,12 +11,14 @@ import { AuthService } from "src/auth/auth.service";
 import { CommentService } from "src/comment/comment.service";
 import { Post } from "src/post/entities/post.entity";
 import { Badge } from "src/badge/entities/badge.entity";
+import { AskService } from "src/ask/ask.service";
+import { Ask } from "src/ask/entities/ask.entity";
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([Score, User, Comment, Post, Badge]),
+        TypeOrmModule.forFeature([Score, User, Comment, Post, Badge, Ask]),
     ],
     controllers: [ScoreController],
-    providers: [JwtService, AuthService, ScoreService, UserService, CommentService],
+    providers: [JwtService, AuthService, ScoreService, UserService, CommentService, AskService],
 })
 export class ScoreModule {}

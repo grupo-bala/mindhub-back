@@ -9,4 +9,7 @@ export class Ask extends Post {
 
     @Column({ default: false })
         hasImage: boolean;
+
+    @Column({ nullable: false, default: false })
+        hasBestAnswer: boolean;
 }

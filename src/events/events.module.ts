@@ -14,13 +14,15 @@ import { Comment } from "src/comment/entities/comment.entity";
 import { CommentService } from "src/comment/comment.service";
 import { Post } from "src/post/entities/post.entity";
 import { Badge } from "src/badge/entities/badge.entity";
+import { Ask } from "src/ask/entities/ask.entity";
+import { AskService } from "src/ask/ask.service";
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([Event, Score, User, Comment, Post, Badge]),
+        TypeOrmModule.forFeature([Event, Score, User, Comment, Post, Badge, Ask]),
         ScoreModule,
     ],
     controllers: [EventsController],
-    providers: [JwtService, AuthService, UserService, ScoreService, EventsService, CommentService],
+    providers: [JwtService, AuthService, UserService, ScoreService, EventsService, CommentService, AskService],
 })
 export class EventsModule {}

@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable, forwardRef } from "@nestjs/common";
 import { CreateAskDto } from "./dto/create-ask.dto";
 import { UpdateAskDto } from "./dto/update-ask.dto";
 import { Ask } from "./entities/ask.entity";
@@ -26,6 +26,7 @@ export class AskService {
     constructor(
         @InjectRepository(Ask)
         private askRespository: Repository<Ask>,
+        @Inject(forwardRef(() => ScoreService))
         private scoreService: ScoreService,
     ) { }
 
@@ -218,6 +219,14 @@ export class AskService {
     async remove(id: number, username: string) {
         return (
             await this.askRespository.delete({ id, user: { username } })
+        )!.affected! > 0;
+    }
+
+    async updateHasBestAnswer(id: number, hasBestAnswer: boolean) {
+        console.log(id, hasBestAnswer);
+
+        return (
+            await this.askRespository.update({ id }, { hasBestAnswer })
         )!.affected! > 0;
     }
 }

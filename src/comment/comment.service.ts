@@ -7,6 +7,7 @@ import { CreateCommentDto } from "./dto/create-comment.dto";
 import { CreateCommentReplyDto } from "./dto/create-comment-reply.dto";
 import { UpdateCommentDto } from "./dto/update-comment.dto";
 import { UpdateBestAnswerDto } from "./dto/update-best-answer.dto";
+import { AskService } from "src/ask/ask.service";
 
 type CommentError =
     | "POST DOESNT EXIST"
@@ -27,6 +28,8 @@ export class CommentService {
     constructor(
         @InjectRepository(Comment)
         private commentRepository: Repository<Comment>,
+        @Inject(forwardRef(() => AskService))
+        private askService: AskService,
         @Inject(forwardRef(() => ScoreService))
         private scoreService: ScoreService,
     ) {}
@@ -74,8 +77,6 @@ export class CommentService {
 
             return this.findOne(id, username);
         } catch (e) {
-            console.log(e);
-            
             throw new CommentException(
                 "COMMENT TO REPLY OR POST DOESNT EXIST"
             );
@@ -202,6 +203,8 @@ export class CommentService {
         });
 
         if (bestAnswerComment === null) {
+            this.askService.updateHasBestAnswer(updateBestAnswerDto.postId, true);
+
             return (
                 await this.commentRepository.update({
                     id,
@@ -224,8 +227,12 @@ export class CommentService {
         });
 
         if (id === bestAnswerComment.id) {
-            return true; 
+            this.askService.updateHasBestAnswer(updateBestAnswerDto.postId, false);
+
+            return true;
         }
+
+        this.askService.updateHasBestAnswer(updateBestAnswerDto.postId, true);
 
         return (
             await this.commentRepository.update({
