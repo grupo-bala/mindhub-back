@@ -115,13 +115,13 @@ export class MaterialService {
             })
             .getMany();
         
-        return await Promise.all(
+        return (await Promise.all(
             materials.map(async material => ({
                 ...material,
                 score: await this.scoreService.getPostScore(material.id),
                 userScore: await this.scoreService.getUserScoreOnPost(material.id, username) ?? 0
             }))
-        );
+        )).sort((a, b) => b.score - a.score);
     }
 
     async find(usernameTarget: string, usernameViewer: string) {
