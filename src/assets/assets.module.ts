@@ -1,5 +1,5 @@
 import { Module } from "@nestjs/common";
-import { StaticController } from "./static.controller";
+import { StaticController } from "./assets.controller";
 import { JwtService } from "@nestjs/jwt";
 
 @Module({

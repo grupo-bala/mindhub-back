@@ -10,7 +10,7 @@ import { PostModule } from "./post/post.module";
 import { BadgeModule } from "./badge/badge.module";
 import { TestModule } from "./test/test.module";
 import { AskModule } from "./ask/ask.module";
-import { StaticModule } from "./static/static.module";
+import { StaticModule } from "./assets/assets.module";
 import { CommentModule } from "./comment/comment.module";
 import { ScoreModule } from "./score/score.module";
 
