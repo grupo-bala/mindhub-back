@@ -64,7 +64,7 @@ export class MaterialController {
         return instanceToPlain(await this.materialService.find(username, req.user.sub));
     }
 
-    @Get("forYou")
+    @Get("for-you")
     @UseGuards(AuthGuard)
     async forYou(@Req() req: Request) {
         return instanceToPlain(await this.materialService.getForYou(req.user.sub));
