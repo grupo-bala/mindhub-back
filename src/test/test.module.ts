@@ -55,7 +55,6 @@ export class TestModule {
 
         const badge = new Badge();
         badge.title = "Aprendiz";
-        badge.users = [];
         await this.badgeRepository.save(badge);
 
         const user = new User();

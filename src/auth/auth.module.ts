@@ -8,6 +8,7 @@ import { UserService } from "src/user/user.service";
 import { User } from "src/user/entities/user.entity";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AuthGuard } from "./auth.guard";
+import { Badge } from "src/badge/entities/badge.entity";
 
 @Module({
     imports: [
@@ -21,7 +22,7 @@ import { AuthGuard } from "./auth.guard";
                 signOptions: { expiresIn: "60m" }
             }),
         }),
-        TypeOrmModule.forFeature([User]),
+        TypeOrmModule.forFeature([User, Badge]),
     ],
     exports: [JwtService, AuthGuard],
     controllers: [AuthController],

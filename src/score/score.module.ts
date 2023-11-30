@@ -10,10 +10,11 @@ import { Comment } from "src/comment/entities/comment.entity";
 import { AuthService } from "src/auth/auth.service";
 import { CommentService } from "src/comment/comment.service";
 import { Post } from "src/post/entities/post.entity";
+import { Badge } from "src/badge/entities/badge.entity";
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([Score, User, Comment, Post]),
+        TypeOrmModule.forFeature([Score, User, Comment, Post, Badge]),
     ],
     controllers: [ScoreController],
     providers: [JwtService, AuthService, ScoreService, UserService, CommentService],

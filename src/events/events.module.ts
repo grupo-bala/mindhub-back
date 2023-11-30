@@ -13,10 +13,11 @@ import { User } from "src/user/entities/user.entity";
 import { Comment } from "src/comment/entities/comment.entity";
 import { CommentService } from "src/comment/comment.service";
 import { Post } from "src/post/entities/post.entity";
+import { Badge } from "src/badge/entities/badge.entity";
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([Event, Score, User, Comment, Post]),
+        TypeOrmModule.forFeature([Event, Score, User, Comment, Post, Badge]),
         ScoreModule,
     ],
     controllers: [EventsController],

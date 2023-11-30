@@ -11,10 +11,11 @@ import { AuthService } from "src/auth/auth.service";
 import { UserService } from "src/user/user.service";
 import { User } from "src/user/entities/user.entity";
 import { Post } from "src/post/entities/post.entity";
+import { Badge } from "src/badge/entities/badge.entity";
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([Comment, Score, User, Post]),
+        TypeOrmModule.forFeature([Comment, Score, User, Post, Badge]),
         ScoreModule,
     ],
     controllers: [CommentController],

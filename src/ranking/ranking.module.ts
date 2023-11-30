@@ -6,10 +6,11 @@ import { JwtService } from "@nestjs/jwt";
 import { AuthService } from "src/auth/auth.service";
 import { RankingService } from "./ranking.service";
 import { UserService } from "src/user/user.service";
+import { Badge } from "src/badge/entities/badge.entity";
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([User]),
+        TypeOrmModule.forFeature([User, Badge]),
     ],
     controllers: [RankingController],
     providers: [JwtService, AuthService, RankingService, UserService]

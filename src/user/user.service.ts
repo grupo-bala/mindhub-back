@@ -32,6 +32,8 @@ export class UserService {
     constructor(
         @InjectRepository(User)
         private userRepository: Repository<User>,
+        @InjectRepository(Badge)
+        private badgeRepository: Repository<Badge>,
         @Inject(forwardRef(() => AuthService))
         private authService: AuthService,
     ) { }
@@ -151,13 +153,15 @@ export class UserService {
             where,
             relations: {
                 expertises: true,
-                badges: true,
                 currentBadge: true,
             }
         });
-        
+
+        const badges = await this.badgeRepository.find();
+
         if (user) {
-            return user;
+            const userBadges = badges.filter(badge => badge.xp <= user.xp);
+            return { ...user, badges: userBadges };
         } else {
             throw new UserException("USER DOESNT EXIST");
         }

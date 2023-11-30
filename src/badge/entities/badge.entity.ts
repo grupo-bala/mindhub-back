@@ -1,5 +1,5 @@
 import { User } from "src/user/entities/user.entity";
-import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Badge {
@@ -8,10 +8,10 @@ export class Badge {
     
     @Column({ unique: true, type: "text" })
         title: string;
+
+    @Column({ type: "int", default: 0 })
+        xp: number;
     
     @OneToMany(() => User, user => user.currentBadge)
         currentUsers: User[];
-    
-    @ManyToMany(() => User, user => user.username)
-        users: User[];
 }

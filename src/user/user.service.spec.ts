@@ -8,11 +8,13 @@ import { Repository } from "typeorm";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { AuthService } from "src/auth/auth.service";
 import { ExpertiseException } from "src/expertise/expertise.service";
+import { Badge } from "src/badge/entities/badge.entity";
 
 describe("UserService", () => {
     let service: UserService;
     let mockRepository: Partial<Repository<User>> = {};
     let mockAuth: Partial<AuthService> = {};
+    const badgesMock: Partial<Repository<Badge>> = {};
 
     beforeEach(async () => {
         mockRepository = {};
@@ -24,6 +26,10 @@ describe("UserService", () => {
                 {
                     provide: getRepositoryToken(User),
                     useValue: mockRepository,
+                },
+                {
+                    provide: getRepositoryToken(Badge),
+                    useValue: badgesMock,
                 },
                 {
                     provide: AuthService,
@@ -128,15 +134,19 @@ describe("UserService", () => {
             return user;
         };
 
+        badgesMock.find = async () => [];
+
         expect(service.findOneByUsername("teste"))
             .resolves
-            .toBe(user);
+            .toSatisfy((returnedUser: User) => returnedUser.username == user.username);
     });
 
     it("should return null for non existent username", () => {
         mockRepository.findOne = async () => {
             return null;
         };
+
+        badgesMock.find = async () => [];
 
         expect(service.findOneByUsername("teste"))
             .rejects
