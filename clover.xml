@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1701316258910" clover="3.2.0">
-  <project timestamp="1701316258910" name="All files">
-    <metrics statements="1198" coveredstatements="1068" conditionals="134" coveredconditionals="97" methods="66" coveredmethods="51" elements="1398" coveredelements="1216" complexity="0" loc="1198" ncloc="1198" packages="19" files="26" classes="26"/>
+<coverage generated="1701316448781" clover="3.2.0">
+  <project timestamp="1701316448781" name="All files">
+    <metrics statements="1198" coveredstatements="1068" conditionals="133" coveredconditionals="97" methods="66" coveredmethods="51" elements="1397" coveredelements="1216" complexity="0" loc="1198" ncloc="1198" packages="19" files="26" classes="26"/>
     <package name="ask">
       <metrics statements="194" coveredstatements="148" conditionals="17" coveredconditionals="12" methods="10" coveredmethods="8"/>
       <file name="ask.service.ts" path="/home/runner/work/mindhub-back/mindhub-back/src/ask/ask.service.ts">
@@ -1292,9 +1292,9 @@
       </file>
     </package>
     <package name="user.entities">
-      <metrics statements="38" coveredstatements="38" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
+      <metrics statements="38" coveredstatements="38" conditionals="1" coveredconditionals="0" methods="2" coveredmethods="0"/>
       <file name="user.entity.ts" path="/home/runner/work/mindhub-back/mindhub-back/src/user/entities/user.entity.ts">
-        <metrics statements="38" coveredstatements="38" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <metrics statements="38" coveredstatements="38" conditionals="1" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -1320,7 +1320,7 @@
         <line num="23" count="1" type="stmt"/>
         <line num="24" count="1" type="stmt"/>
         <line num="25" count="1" type="stmt"/>
-        <line num="26" count="1" type="cond" truecount="0" falsecount="2"/>
+        <line num="26" count="1" type="cond" truecount="0" falsecount="1"/>
         <line num="27" count="1" type="stmt"/>
         <line num="28" count="1" type="stmt"/>
         <line num="29" count="1" type="stmt"/>
