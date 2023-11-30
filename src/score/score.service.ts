@@ -2,12 +2,19 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Score } from "./entities/score.entity";
 import { Repository } from "typeorm";
 import { Injectable } from "@nestjs/common";
+import { UserService } from "src/user/user.service";
+import { CommentService } from "src/comment/comment.service";
+import { Post } from "src/post/entities/post.entity";
 
 @Injectable()
 export class ScoreService {
     constructor(
         @InjectRepository(Score)
-        private scoreRepository: Repository<Score>
+        private scoreRepository: Repository<Score>,
+        @InjectRepository(Post)
+        private postRepository: Repository<Post>,
+        private userService: UserService,
+        private commentService: CommentService,
     ) { }
 
     async getPostScore(id: number): Promise<number> {
@@ -67,9 +74,24 @@ export class ScoreService {
             });
         } else {
             await this.scoreRepository.update(
-                { user: { username } },
+                { user: { username } , post: { id: postId }},
                 { value }
             );
+        }
+
+        const post = await this.postRepository.findOne({
+            where: {
+                id: postId,
+            },
+            relations: {
+                user: true,
+            },
+        });
+
+        if (value === 0) {
+            await this.userService.addXp(post!.user.username, -currentScore!);
+        } else {
+            await this.userService.addXp(post!.user.username, value);
         }
     }
 
@@ -84,9 +106,17 @@ export class ScoreService {
             });
         } else {
             await this.scoreRepository.update(
-                { user: { username } },
+                { user: { username }, comment: { id: commentId } },
                 { value }
             );
+        }
+
+        const comment = await this.commentService.findOne(commentId, username);
+        
+        if (value === 0) {
+            await this.userService.addXp(comment!.user, -currentScore!);
+        } else {
+            await this.userService.addXp(comment!.user, value);
         }
     }
 }

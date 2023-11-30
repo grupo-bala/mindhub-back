@@ -106,7 +106,7 @@ describe("UserController", () => {
         expect(controller.findOne("teste"))
             .resolves
             .toSatisfy(
-                ({ user: returnedUser }: { user: User }) => returnedUser.username === user.username
+                (returnedUser: User) => returnedUser.username === user.username
             );
     });
 

@@ -7,13 +7,19 @@ import { Ask } from "./entities/ask.entity";
 import { ScoreModule } from "src/score/score.module";
 import { JwtService } from "@nestjs/jwt";
 import { ScoreService } from "src/score/score.service";
+import { AuthService } from "src/auth/auth.service";
+import { UserService } from "src/user/user.service";
+import { User } from "src/user/entities/user.entity";
+import { Comment } from "src/comment/entities/comment.entity";
+import { CommentService } from "src/comment/comment.service";
+import { Post } from "src/post/entities/post.entity";
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([Ask, Score]),
+        TypeOrmModule.forFeature([Ask, Score, User, Comment, Post]),
         ScoreModule,
     ],
     controllers: [AskController],
-    providers: [JwtService, ScoreService,AskService],
+    providers: [JwtService, AuthService, UserService, ScoreService, AskService, CommentService],
 })
 export class AskModule {}

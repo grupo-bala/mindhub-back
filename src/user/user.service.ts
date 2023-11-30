@@ -137,6 +137,15 @@ export class UserService {
         return (await this.userRepository.delete(username))!.affected! > 0;
     }
 
+    async addXp(username: string, quantity: number) {
+        const user = await this.findOneByUsername(username);
+
+        await this.userRepository.update(
+            { username },
+            { xp: user.xp + quantity },
+        );
+    }
+
     private async findOne(where: Partial<User>) {
         const user = await this.userRepository.findOne({
             where,

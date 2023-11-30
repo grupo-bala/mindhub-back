@@ -7,14 +7,18 @@ import { Score } from "src/score/entities/score.entity";
 import { Comment } from "./entities/comment.entity";
 import { CommentController } from "./comment.controller";
 import { CommentService } from "./comment.service";
+import { AuthService } from "src/auth/auth.service";
+import { UserService } from "src/user/user.service";
+import { User } from "src/user/entities/user.entity";
+import { Post } from "src/post/entities/post.entity";
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([Comment, Score]),
+        TypeOrmModule.forFeature([Comment, Score, User, Post]),
         ScoreModule,
     ],
     controllers: [CommentController],
-    providers: [JwtService, ScoreService, CommentService],
+    providers: [JwtService, AuthService, UserService, ScoreService, CommentService],
 })
 
 export class CommentModule {}
