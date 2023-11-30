@@ -32,7 +32,7 @@ export class AskController {
         }
     }
 
-    @Get(":pattern")
+    @Get("search/:pattern")
     @UseGuards(AuthGuard)
     async find(
         @Param("pattern") pattern: string,
@@ -79,6 +79,12 @@ export class AskController {
     async getRecents(@Req() req: Request) {
         return instanceToPlain(await this.askService.getRecents(req.user.sub));
     }
+
+    @Get("for-you")
+    @UseGuards(AuthGuard)
+    async forYou(@Req() req: Request) {
+        return instanceToPlain(await this.askService.getForYou(req.user.sub));
+    }  
 
     @Patch(":id")
     @UseGuards(AuthGuard)
