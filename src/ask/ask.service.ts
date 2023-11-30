@@ -7,6 +7,7 @@ import { ILike, Repository } from "typeorm";
 import { ScoreService } from "src/score/score.service";
 import { ExpertiseException } from "src/expertise/expertise.service";
 import { Expertise } from "src/expertise/entities/expertise.entity";
+import { User } from "src/user/entities/user.entity";
 
 type AskError =
     | "ASK DOESNT EXIST";
@@ -118,6 +119,34 @@ export class AskService {
                 userScore: await this.scoreService.getUserScoreOnPost(ask.id, username) ?? 0
             }))
         );
+    }
+
+    async getForYou(username: string) {
+        const asks = await this.askRespository.createQueryBuilder("ask")
+            .select()
+            .leftJoinAndSelect("ask.expertise", "expertise")
+            .leftJoinAndSelect("ask.user", "user")
+            .leftJoinAndSelect("user.currentBadge", "badge")
+            .leftJoinAndSelect("user.badges", "badges")
+            .leftJoinAndSelect("user.expertises", "expertises")
+            .where(qb => {
+                const subquery = qb.subQuery()
+                    .select()
+                    .from(User, "user")
+                    .leftJoinAndSelect("user.expertises", "expertises")
+                    .where("user.username = :username", { username })
+                    .getQuery();
+                return "ask.expertise in " + subquery;
+            })
+            .getMany();
+        
+        return (await Promise.all(
+            asks.map(async ask => ({
+                ...ask,
+                score: await this.scoreService.getPostScore(ask.id),
+                userScore: await this.scoreService.getUserScoreOnPost(ask.id, username) ?? 0
+            }))
+        )).sort((a, b) => b.score - a.score);
     }
 
     async findByUser(usernameTarget: string, usernameViewer: string) {
