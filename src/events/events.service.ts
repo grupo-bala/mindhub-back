@@ -50,7 +50,7 @@ export class EventsService {
             events.map(async event => ({
                 ...event,
                 score: await this.scoreService.getPostScore(event.id),
-                userScore: await this.scoreService.getUserScoreOnPost(event.id, username),
+                userScore: await this.scoreService.getUserScoreOnPost(event.id, username) ?? 0,
             }))
         );
     }
@@ -73,7 +73,7 @@ export class EventsService {
             return {
                 ...event,
                 score: await this.scoreService.getPostScore(id),
-                userScore: await this.scoreService.getUserScoreOnPost(id, username),
+                userScore: await this.scoreService.getUserScoreOnPost(id, username) ?? 0,
             };
         } else {
             throw new EventException("EVENT DOESNT EXIST");
@@ -103,6 +103,26 @@ export class EventsService {
         );
     }
 
+    async getForYou(username: string) {
+        const events = await this.eventRepository.find({
+            relations: {
+                user: {
+                    badges: true,
+                    currentBadge: true,
+                    expertises: true,
+                },
+            }
+        });
+
+        return (await Promise.all(
+            events.map(async event => ({
+                ...event,
+                score: await this.scoreService.getPostScore(event.id),
+                userScore: await this.scoreService.getUserScoreOnPost(event.id, username) ?? 0
+            }))
+        )).sort((a, b) => b.score - a.score);
+    }
+
     async find(usernameTarget: string, usernameViewer: string) {
         const events = await this.eventRepository.find({
             where: {
@@ -123,7 +143,7 @@ export class EventsService {
             events.map(async event => ({
                 ...event,
                 score: await this.scoreService.getPostScore(event.id),
-                userScore: await this.scoreService.getUserScoreOnPost(event.id, usernameViewer),
+                userScore: await this.scoreService.getUserScoreOnPost(event.id, usernameViewer)  ?? 0,
             }))
         );
     }
