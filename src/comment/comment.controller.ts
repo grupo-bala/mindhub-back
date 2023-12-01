@@ -87,8 +87,7 @@ export class CommentController {
     async updateBestAnswer(
         @Param("id", ParseIntPipe) id: number,
         @Body() updateBestAnswerDto: UpdateBestAnswerDto,
-        @Req() req: Request,
     ) {
-        await this.commentService.updateBestAnswer(id, req.user.sub, updateBestAnswerDto);
+        await this.commentService.updateBestAnswer(id, updateBestAnswerDto);
     }
 }

@@ -187,14 +187,10 @@ export class CommentService {
 
     async updateBestAnswer(
         id: number,
-        username: string,
         updateBestAnswerDto: UpdateBestAnswerDto,
     ) {
         const bestAnswerComment = await this.commentRepository.findOne({
             where: {
-                user: {
-                    username,
-                },
                 post: {
                     id: updateBestAnswerDto.postId,
                 },
@@ -208,9 +204,6 @@ export class CommentService {
             return (
                 await this.commentRepository.update({
                     id,
-                    user: {
-                        username,
-                    },
                     post: {
                         id: updateBestAnswerDto.postId,
                     },
@@ -237,9 +230,6 @@ export class CommentService {
         return (
             await this.commentRepository.update({
                 id,
-                user: {
-                    username,
-                },
                 post: {
                     id: updateBestAnswerDto.postId,
                 },
