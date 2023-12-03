@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1701627281254" clover="3.2.0">
-  <project timestamp="1701627281254" name="All files">
-    <metrics statements="1271" coveredstatements="1083" conditionals="139" coveredconditionals="99" methods="73" coveredmethods="51" elements="1483" coveredelements="1233" complexity="0" loc="1271" ncloc="1271" packages="19" files="26" classes="26"/>
+<coverage generated="1701642766136" clover="3.2.0">
+  <project timestamp="1701642766136" name="All files">
+    <metrics statements="1275" coveredstatements="1087" conditionals="140" coveredconditionals="99" methods="73" coveredmethods="51" elements="1488" coveredelements="1237" complexity="0" loc="1275" ncloc="1275" packages="19" files="26" classes="26"/>
     <package name="ask">
       <metrics statements="232" coveredstatements="154" conditionals="18" coveredconditionals="13" methods="12" coveredmethods="8"/>
       <file name="ask.service.ts" path="/home/runner/work/mindhub-back/mindhub-back/src/ask/ask.service.ts">
@@ -1314,7 +1314,7 @@
       </file>
     </package>
     <package name="user.dto">
-      <metrics statements="38" coveredstatements="38" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <metrics statements="42" coveredstatements="42" conditionals="1" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="create-user.dto.ts" path="/home/runner/work/mindhub-back/mindhub-back/src/user/dto/create-user.dto.ts">
         <metrics statements="20" coveredstatements="20" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
@@ -1339,7 +1339,7 @@
         <line num="20" count="1" type="stmt"/>
       </file>
       <file name="update-user.dto.ts" path="/home/runner/work/mindhub-back/mindhub-back/src/user/dto/update-user.dto.ts">
-        <metrics statements="18" coveredstatements="18" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <metrics statements="22" coveredstatements="22" conditionals="1" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -1358,6 +1358,10 @@
         <line num="16" count="1" type="stmt"/>
         <line num="17" count="1" type="stmt"/>
         <line num="18" count="1" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="22" count="1" type="stmt"/>
       </file>
     </package>
     <package name="user.entities">
