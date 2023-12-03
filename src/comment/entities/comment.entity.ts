@@ -10,7 +10,7 @@ export class Comment {
     @ManyToOne(() => User, user => user.username)
         user: User;
     
-    @ManyToOne(() => Post, post => post.id)
+    @ManyToOne(() => Post, post => post.id, { onDelete: "CASCADE" })
         post: Post;
 
     @ManyToOne(() => Comment, comment => comment.id, { nullable: true, onDelete: "CASCADE" })

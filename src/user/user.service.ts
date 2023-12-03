@@ -3,7 +3,7 @@ import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "./entities/user.entity";
-import { Repository } from "typeorm";
+import { LessThanOrEqual, Repository } from "typeorm";
 import { AuthService } from "src/auth/auth.service";
 import { Expertise } from "src/expertise/entities/expertise.entity";
 import { ExpertiseException } from "src/expertise/expertise.service";
@@ -52,25 +52,23 @@ export class UserService {
         const { hash, jwt } = await this.authService.signUp(username, password);
 
         try {
-            const user = new User();
-            user.name = name;
-            user.username = username;
-            user.email = email;
-            user.hashPassword = hash;
-            user.expertises = expertises.map(e => {
-                const expertise = new Expertise();
-                expertise.title = e;
-                return expertise;
-            });
-            
-            const initialBadge = new Badge();
-            initialBadge.id = 1;
-            initialBadge.title = "Aprendiz";
-            user.currentBadge = initialBadge;
-            
-            user.badges = [initialBadge];
+            await this.userRepository.save({
+                name,
+                username,
+                email,
+                hashPassword: hash,
+                expertises: expertises.map(e => {
+                    const expertise = new Expertise();
+                    expertise.title = e;
+                    return expertise;
+                }),
+                currentBadge: {
+                    id: 1,
+                },
+                badges: [ { id: 1 } ],
+            } as User);
 
-            await this.userRepository.save(user);
+            const user = await this.findOneByUsername(username);
 
             return {
                 token: jwt,
@@ -141,11 +139,19 @@ export class UserService {
 
     async addXp(username: string, quantity: number) {
         const user = await this.findOneByUsername(username);
+        const newXp = Math.max(0, user.xp + quantity);
 
-        await this.userRepository.update(
-            { username },
-            { xp: Math.max(0, user.xp + quantity) },
-        );
+        const badges = await this.badgeRepository.find({
+            where: {
+                xp: LessThanOrEqual(newXp),
+            },
+        });
+
+        await this.userRepository.save({
+            username,
+            xp: newXp,
+            badges,
+        });
     }
 
     private async findOne(where: Partial<User>) {
@@ -154,14 +160,12 @@ export class UserService {
             relations: {
                 expertises: true,
                 currentBadge: true,
+                badges: true,
             }
         });
 
-        const badges = await this.badgeRepository.find();
-
         if (user) {
-            const userBadges = badges.filter(badge => badge.xp <= user.xp);
-            return { ...user, badges: userBadges };
+            return user;
         } else {
             throw new UserException("USER DOESNT EXIST");
         }

@@ -46,6 +46,7 @@ describe("UserService", () => {
         user.expertises = [""];
 
         mockRepository.findOneBy = async () => null;
+        mockRepository.findOne = async () => new User();
         mockRepository.save = async () => [];
         mockAuth.signUp = async () => ({ hash: "", jwt: "" });
 
@@ -57,6 +58,7 @@ describe("UserService", () => {
         const user = new CreateUserDto();
 
         mockRepository.findOneBy = async () => new User();
+        mockRepository.findOne = async () => new User();
 
         expect(service.create(user))
             .rejects
@@ -67,6 +69,7 @@ describe("UserService", () => {
         const user = new CreateUserDto();
         user.username = "teste";
 
+        mockRepository.findOne = async () => new User();
         mockRepository.findOneBy = async (dto: object) => {
             if ("username" in dto) return new User();
             return null;
@@ -82,6 +85,7 @@ describe("UserService", () => {
         user.username = "teste";
         user.expertises = [];
 
+        mockRepository.findOne = async () => new User();
         mockRepository.findOneBy = async () => null;
 
         expect(service.create(user))
@@ -94,6 +98,7 @@ describe("UserService", () => {
         user.username = "teste";
         user.expertises = ["", "", "", ""];
 
+        mockRepository.findOne = async () => new User();
         mockRepository.findOneBy = async () => null;
 
         expect(service.create(user))
@@ -107,6 +112,7 @@ describe("UserService", () => {
 
         mockAuth.signUp = async () => ({ hash: "", jwt: "" });
         mockRepository.findOneBy = async () => null;
+        mockRepository.findOne = async () => new User();
         mockRepository.save = async () => {
             throw new Error();
         };
