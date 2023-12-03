@@ -118,7 +118,7 @@ export class UserService {
             email: updateUserDto.email,
             hashPassword: user.hashPassword,
             xp: user.xp,
-            currentBadge: user.currentBadge,
+            currentBadge: updateUserDto.badge,
             expertises: updateUserDto.expertises
         };
 
