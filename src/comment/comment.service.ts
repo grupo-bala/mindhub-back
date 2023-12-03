@@ -121,7 +121,7 @@ export class CommentService {
                     userScore: 0,
                 })),
                 replyTo: comment.replyTo ? comment.replyTo.id : null,
-                score: await this.scoreService.getPostScore(comment.id),
+                score: await this.scoreService.getCommentScore(comment.id),
                 userScore: await this.scoreService.getUserScoreOnComment(comment.id, username) ?? 0,
             };
         } else {
